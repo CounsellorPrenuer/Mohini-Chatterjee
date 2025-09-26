@@ -9,7 +9,10 @@ import {
   insertBlogPostSchema, 
   insertTestimonialSchema, 
   insertContactSchema,
-  insertUserSchema
+  insertUserSchema,
+  insertSessionSchema,
+  insertPageViewSchema,
+  insertEventSchema
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -335,6 +338,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating contact status:", error);
       res.status(500).json({ error: "Failed to update contact status" });
+    }
+  });
+
+  // Analytics API
+  app.post("/api/analytics/session", async (req, res) => {
+    try {
+      const validatedData = insertSessionSchema.parse(req.body);
+      
+      // Check if session already exists
+      const existingSession = await storage.getSession(validatedData.sessionId);
+      if (existingSession) {
+        // Update existing session
+        // Only increment pageViews if this is not just a duration update
+        const isPageViewUpdate = !validatedData.duration || validatedData.duration === 0;
+        const updated = await storage.updateSession(validatedData.sessionId, {
+          pageViews: isPageViewUpdate ? (existingSession.pageViews || 0) + 1 : existingSession.pageViews,
+          duration: validatedData.duration || existingSession.duration,
+          lastActivityAt: new Date(), // Update last activity timestamp
+        });
+        return res.json(updated);
+      }
+      
+      // Create new session
+      const session = await storage.createSession(validatedData);
+      res.status(201).json(session);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid session data", details: error.errors });
+      }
+      console.error("Analytics session error:", error);
+      res.status(500).json({ error: "Failed to track session" });
+    }
+  });
+
+  app.post("/api/analytics/pageview", async (req, res) => {
+    try {
+      const validatedData = insertPageViewSchema.parse(req.body);
+      const pageView = await storage.createPageView(validatedData);
+      res.status(201).json(pageView);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid page view data", details: error.errors });
+      }
+      console.error("Analytics pageview error:", error);
+      res.status(500).json({ error: "Failed to track page view" });
+    }
+  });
+
+  app.post("/api/analytics/event", async (req, res) => {
+    try {
+      const validatedData = insertEventSchema.parse(req.body);
+      const event = await storage.createEvent(validatedData);
+      res.status(201).json(event);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid event data", details: error.errors });
+      }
+      console.error("Analytics event error:", error);
+      res.status(500).json({ error: "Failed to track event" });
+    }
+  });
+
+  // Admin Analytics API
+  app.get("/api/admin/analytics/summary", requireAuth, async (req, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+      const start = startDate ? new Date(startDate as string) : undefined;
+      const end = endDate ? new Date(endDate as string) : undefined;
+      
+      const summary = await storage.getAnalyticsSummary(start, end);
+      res.json(summary);
+    } catch (error) {
+      console.error("Analytics summary error:", error);
+      res.status(500).json({ error: "Failed to fetch analytics summary" });
+    }
+  });
+
+  app.get("/api/admin/analytics/sessions", requireAuth, async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 100;
+      const offset = parseInt(req.query.offset as string) || 0;
+      
+      const sessions = await storage.getSessionsWithMetrics(limit, offset);
+      res.json(sessions);
+    } catch (error) {
+      console.error("Analytics sessions error:", error);
+      res.status(500).json({ error: "Failed to fetch sessions" });
     }
   });
 

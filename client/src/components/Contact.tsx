@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { insertContactSchema } from "@shared/schema";
 
@@ -23,6 +24,7 @@ type ContactFormData = z.infer<typeof contactFormSchema>;
 export default function Contact() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { trackFormSubmit, trackButtonClick } = useAnalytics();
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
@@ -39,7 +41,14 @@ export default function Contact() {
     mutationFn: async (data: ContactFormData) => {
       return await apiRequest("POST", "/api/contacts", data);
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
+      // Track successful form submission for conversion analytics
+      trackFormSubmit('contact_form', {
+        service: variables.service,
+        hasPhone: !!variables.phone,
+        messageLength: variables.message?.length || 0,
+      });
+      
       toast({
         title: "Thank you for your interest!",
         description: "We will get back to you within 24 hours.",
@@ -123,6 +132,7 @@ export default function Contact() {
                     target="_blank" 
                     rel="noopener noreferrer"
                     data-testid="link-linkedin"
+                    onClick={() => trackButtonClick('linkedin_link', { source: 'contact_page' })}
                   >
                     <span className="sr-only">LinkedIn</span>
                     📄
@@ -133,6 +143,7 @@ export default function Contact() {
                   size="icon"
                   className="bg-secondary hover:bg-secondary/80"
                   data-testid="link-facebook"
+                  onClick={() => trackButtonClick('facebook_link', { source: 'contact_page' })}
                 >
                   📘
                 </Button>
@@ -141,6 +152,7 @@ export default function Contact() {
                   size="icon"
                   className="bg-accent hover:bg-accent/80"
                   data-testid="link-instagram"
+                  onClick={() => trackButtonClick('instagram_link', { source: 'contact_page' })}
                 >
                   📷
                 </Button>

@@ -7,9 +7,10 @@ import Dashboard from "@/components/admin/Dashboard";
 import BlogManager from "@/components/admin/BlogManager";
 import TestimonialManager from "@/components/admin/TestimonialManager";
 import ContactManager from "@/components/admin/ContactManager";
+import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import LoginForm from "@/components/admin/LoginForm";
 import { useLocation } from "wouter";
-import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail, LogOut } from "lucide-react";
+import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail, LogOut, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -140,6 +141,14 @@ export default function Admin() {
                   Testimonials
                 </TabsTrigger>
                 <TabsTrigger
+                  value="analytics"
+                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  data-testid="tab-analytics"
+                >
+                  <TrendingUp className="h-4 w-4 mr-2" />
+                  Analytics
+                </TabsTrigger>
+                <TabsTrigger
                   value="contacts"
                   className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                   data-testid="tab-contacts"
@@ -159,6 +168,9 @@ export default function Admin() {
                 </TabsContent>
                 <TabsContent value="testimonials" className="mt-0">
                   <TestimonialManager />
+                </TabsContent>
+                <TabsContent value="analytics" className="mt-0">
+                  <AnalyticsDashboard />
                 </TabsContent>
                 <TabsContent value="contacts" className="mt-0">
                   <ContactManager />

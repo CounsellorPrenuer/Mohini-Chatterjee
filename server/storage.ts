@@ -3,6 +3,9 @@ import {
   blogPosts, 
   testimonials, 
   contacts,
+  sessions,
+  pageViews,
+  events,
   type User, 
   type InsertUser,
   type BlogPost,
@@ -10,10 +13,16 @@ import {
   type Testimonial,
   type InsertTestimonial,
   type Contact,
-  type InsertContact
+  type InsertContact,
+  type Session,
+  type InsertSession,
+  type PageView,
+  type InsertPageView,
+  type Event,
+  type InsertEvent
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, gte, count, sql } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -42,6 +51,23 @@ export interface IStorage {
   createContact(contact: InsertContact): Promise<Contact>;
   updateContactStatus(id: string, status: string): Promise<Contact | undefined>;
   deleteContact(id: string): Promise<boolean>;
+  
+  // Analytics
+  createSession(session: InsertSession): Promise<Session>;
+  updateSession(sessionId: string, updates: Partial<InsertSession>): Promise<Session | undefined>;
+  getSession(sessionId: string): Promise<Session | undefined>;
+  createPageView(pageView: InsertPageView): Promise<PageView>;
+  createEvent(event: InsertEvent): Promise<Event>;
+  getAnalyticsSummary(startDate?: Date, endDate?: Date): Promise<{
+    totalSessions: number;
+    totalPageViews: number;
+    totalEvents: number;
+    avgSessionDuration: number;
+    topPages: Array<{ path: string; views: number }>;
+    topReferrers: Array<{ referrer: string; sessions: number }>;
+    deviceBreakdown: Array<{ deviceType: string; count: number }>;
+  }>;
+  getSessionsWithMetrics(limit?: number, offset?: number): Promise<Session[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -169,6 +195,148 @@ export class DatabaseStorage implements IStorage {
   async deleteContact(id: string): Promise<boolean> {
     const result = await db.delete(contacts).where(eq(contacts.id, id));
     return (result.rowCount ?? 0) > 0;
+  }
+
+  // Analytics methods
+  async createSession(session: InsertSession): Promise<Session> {
+    const [created] = await db
+      .insert(sessions)
+      .values(session)
+      .returning();
+    return created;
+  }
+
+  async updateSession(sessionId: string, updates: Partial<InsertSession>): Promise<Session | undefined> {
+    const [updated] = await db
+      .update(sessions)
+      .set({ ...updates, lastActivityAt: new Date() })
+      .where(eq(sessions.sessionId, sessionId))
+      .returning();
+    return updated || undefined;
+  }
+
+  async getSession(sessionId: string): Promise<Session | undefined> {
+    const [session] = await db.select().from(sessions).where(eq(sessions.sessionId, sessionId));
+    return session || undefined;
+  }
+
+  async createPageView(pageView: InsertPageView): Promise<PageView> {
+    const [created] = await db
+      .insert(pageViews)
+      .values(pageView)
+      .returning();
+    return created;
+  }
+
+  async createEvent(event: InsertEvent): Promise<Event> {
+    const [created] = await db
+      .insert(events)
+      .values(event)
+      .returning();
+    return created;
+  }
+
+  async getAnalyticsSummary(startDate?: Date, endDate?: Date) {
+    // Build date filter condition
+    let dateFilter;
+    if (startDate && endDate) {
+      dateFilter = sql`${sessions.startedAt} BETWEEN ${startDate.toISOString()} AND ${endDate.toISOString()}`;
+    } else if (startDate) {
+      dateFilter = gte(sessions.startedAt, startDate);
+    }
+
+    // Get basic counts
+    const [sessionStats] = await db
+      .select({
+        totalSessions: count(sessions.id),
+        avgDuration: sql<number>`COALESCE(AVG(${sessions.duration}), 0)`,
+      })
+      .from(sessions)
+      .where(dateFilter);
+
+    const [pageViewStats] = await db
+      .select({
+        totalPageViews: count(pageViews.id),
+      })
+      .from(pageViews)
+      .leftJoin(sessions, eq(pageViews.sessionId, sessions.sessionId))
+      .where(dateFilter ? sql`${sessions.startedAt} BETWEEN ${startDate?.toISOString()} AND ${endDate?.toISOString() || 'NOW'}` : undefined);
+
+    const [eventStats] = await db
+      .select({
+        totalEvents: count(events.id),
+      })
+      .from(events)
+      .leftJoin(sessions, eq(events.sessionId, sessions.sessionId))
+      .where(dateFilter ? sql`${sessions.startedAt} BETWEEN ${startDate?.toISOString()} AND ${endDate?.toISOString() || 'NOW'}` : undefined);
+
+    // Get top pages
+    const topPages = await db
+      .select({
+        path: pageViews.path,
+        views: count(pageViews.id),
+      })
+      .from(pageViews)
+      .leftJoin(sessions, eq(pageViews.sessionId, sessions.sessionId))
+      .where(dateFilter ? sql`${sessions.startedAt} BETWEEN ${startDate?.toISOString()} AND ${endDate?.toISOString() || 'NOW'}` : undefined)
+      .groupBy(pageViews.path)
+      .orderBy(desc(count(pageViews.id)))
+      .limit(10);
+
+    // Get top referrers (excluding empty/null referrers)
+    const topReferrers = await db
+      .select({
+        referrer: sessions.referrer,
+        sessions: count(sessions.id),
+      })
+      .from(sessions)
+      .where(dateFilter ? 
+        sql`${sessions.referrer} IS NOT NULL AND ${sessions.referrer} != '' AND ${sessions.startedAt} BETWEEN ${startDate?.toISOString()} AND ${endDate?.toISOString() || 'NOW'}` : 
+        sql`${sessions.referrer} IS NOT NULL AND ${sessions.referrer} != ''`)
+      .groupBy(sessions.referrer)
+      .orderBy(desc(count(sessions.id)))
+      .limit(10);
+
+    // Get device breakdown (excluding null device types)
+    const deviceBreakdown = await db
+      .select({
+        deviceType: sessions.deviceType,
+        count: count(sessions.id),
+      })
+      .from(sessions)
+      .where(dateFilter ? 
+        sql`${sessions.deviceType} IS NOT NULL AND ${sessions.startedAt} BETWEEN ${startDate?.toISOString()} AND ${endDate?.toISOString() || 'NOW'}` : 
+        sql`${sessions.deviceType} IS NOT NULL`)
+      .groupBy(sessions.deviceType)
+      .orderBy(desc(count(sessions.id)));
+
+    return {
+      totalSessions: Number(sessionStats.totalSessions) || 0,
+      totalPageViews: Number(pageViewStats.totalPageViews) || 0,
+      totalEvents: Number(eventStats.totalEvents) || 0,
+      avgSessionDuration: Number(sessionStats.avgDuration) || 0,
+      topPages: topPages.map(p => ({ 
+        path: p.path, 
+        views: Number(p.views) 
+      })),
+      topReferrers: topReferrers.filter(r => r.referrer).map(r => ({ 
+        referrer: r.referrer!, 
+        sessions: Number(r.sessions) 
+      })),
+      deviceBreakdown: deviceBreakdown.filter(d => d.deviceType).map(d => ({ 
+        deviceType: d.deviceType!, 
+        count: Number(d.count) 
+      })),
+    };
+  }
+
+  async getSessionsWithMetrics(limit = 100, offset = 0): Promise<Session[]> {
+    return await db
+      .select()
+      .from(sessions)
+      .orderBy(desc(sessions.startedAt))
+      .limit(limit)
+      .offset(offset);
   }
 }
 

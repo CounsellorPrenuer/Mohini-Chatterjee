@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, boolean, json, index } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -42,6 +42,62 @@ export const contacts = pgTable("contacts", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Analytics Tables
+export const sessions = pgTable("sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id").notNull().unique(), // Client-generated session ID
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  country: text("country"),
+  city: text("city"),
+  referrer: text("referrer"),
+  utmSource: text("utm_source"),
+  utmMedium: text("utm_medium"),
+  utmCampaign: text("utm_campaign"),
+  deviceType: text("device_type"), // mobile, tablet, desktop
+  browserName: text("browser_name"),
+  osName: text("os_name"),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  lastActivityAt: timestamp("last_activity_at").defaultNow().notNull(),
+  duration: integer("duration").default(0), // in seconds
+  pageViews: integer("page_views").default(1),
+  isBot: boolean("is_bot").default(false),
+}, (table) => ({
+  sessionIdIdx: index("sessions_session_id_idx").on(table.sessionId),
+  startedAtIdx: index("sessions_started_at_idx").on(table.startedAt),
+  deviceTypeIdx: index("sessions_device_type_idx").on(table.deviceType),
+}));
+
+export const pageViews = pgTable("page_views", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id").notNull(),
+  path: text("path").notNull(),
+  title: text("title"),
+  timeOnPage: integer("time_on_page").default(0), // in seconds
+  scrollDepth: integer("scroll_depth").default(0), // percentage
+  exitPage: boolean("exit_page").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  sessionIdIdx: index("pageviews_session_id_idx").on(table.sessionId),
+  pathIdx: index("pageviews_path_idx").on(table.path),
+  createdAtIdx: index("pageviews_created_at_idx").on(table.createdAt),
+}));
+
+export const events = pgTable("events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: text("session_id").notNull(),
+  eventType: text("event_type").notNull(), // form_submit, button_click, file_download, etc.
+  eventName: text("event_name").notNull(),
+  path: text("path").notNull(),
+  metadata: json("metadata"), // Additional event data
+  value: integer("value").default(0), // For conversion value tracking
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  sessionIdIdx: index("events_session_id_idx").on(table.sessionId),
+  eventTypeIdx: index("events_event_type_idx").on(table.eventType),
+  createdAtIdx: index("events_created_at_idx").on(table.createdAt),
+}));
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -64,6 +120,23 @@ export const insertContactSchema = createInsertSchema(contacts).omit({
   status: true,
 });
 
+// Analytics schemas
+export const insertSessionSchema = createInsertSchema(sessions).omit({
+  id: true,
+  startedAt: true,
+  lastActivityAt: true,
+});
+
+export const insertPageViewSchema = createInsertSchema(pageViews).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertEventSchema = createInsertSchema(events).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type BlogPost = typeof blogPosts.$inferSelect;
@@ -72,3 +145,11 @@ export type Testimonial = typeof testimonials.$inferSelect;
 export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
 export type Contact = typeof contacts.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
+
+// Analytics types
+export type Session = typeof sessions.$inferSelect;
+export type InsertSession = z.infer<typeof insertSessionSchema>;
+export type PageView = typeof pageViews.$inferSelect;
+export type InsertPageView = z.infer<typeof insertPageViewSchema>;
+export type Event = typeof events.$inferSelect;
+export type InsertEvent = z.infer<typeof insertEventSchema>;
