@@ -1,14 +1,151 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
+import rateLimit from "express-rate-limit";
+import bcrypt from "bcryptjs";
 import { storage } from "./storage";
+import { db } from "./db";
+import { users } from "@shared/schema";
 import { 
   insertBlogPostSchema, 
   insertTestimonialSchema, 
-  insertContactSchema 
+  insertContactSchema,
+  insertUserSchema
 } from "@shared/schema";
 import { z } from "zod";
 
+// Extend Express session type
+declare module 'express-session' {
+  interface SessionData {
+    userId?: string;
+    username?: string;
+  }
+}
+
+// Authentication middleware
+function requireAuth(req: Request, res: Response, next: NextFunction) {
+  if (req.session.userId) {
+    next();
+  } else {
+    res.status(401).json({ error: "Authentication required" });
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
+
+  // Rate limiters for authentication endpoints
+  const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Limit to 5 attempts per window per IP
+    message: { error: "Too many authentication attempts. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  const adminCreationLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 1, // Only 1 admin creation attempt per hour per IP
+    message: { error: "Too many admin creation attempts. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  // Authentication Routes
+  app.post("/api/auth/login", authLimiter, async (req, res) => {
+    try {
+      const validatedData = insertUserSchema.parse(req.body);
+
+      const user = await storage.getUserByUsername(validatedData.username);
+      if (!user) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      const isValid = await bcrypt.compare(validatedData.password, user.password);
+      if (!isValid) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      // Regenerate session ID to prevent session fixation attacks
+      req.session.regenerate((err) => {
+        if (err) {
+          console.error("Session regeneration error:", err);
+          return res.status(500).json({ error: "Internal server error" });
+        }
+        
+        req.session.userId = user.id;
+        req.session.username = user.username;
+        
+        res.json({ message: "Login successful", username: user.username });
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid login data", details: error.errors });
+      }
+      console.error("Login error:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/auth/logout", (req, res) => {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error("Logout error:", err);
+        return res.status(500).json({ error: "Failed to logout" });
+      }
+      res.clearCookie('aakaar.sid'); // Match the custom session name
+      res.json({ message: "Logout successful" });
+    });
+  });
+
+  app.get("/api/auth/me", (req, res) => {
+    if (req.session.userId) {
+      res.json({ 
+        authenticated: true, 
+        username: req.session.username 
+      });
+    } else {
+      res.json({ authenticated: false });
+    }
+  });
+
+  // Create admin user endpoint (protected - requires setup token and no existing users)
+  app.post("/api/auth/create-admin", adminCreationLimiter, async (req, res) => {
+    try {
+      // Require setup token for additional security during initial deployment
+      const setupToken = req.headers['x-setup-token'];
+      if (!setupToken || setupToken !== process.env.INIT_ADMIN_TOKEN) {
+        return res.status(403).json({ 
+          error: "Invalid or missing setup token. This endpoint requires proper authorization." 
+        });
+      }
+
+      const validatedData = insertUserSchema.parse(req.body);
+      
+      // Check if any users already exist (prevent multiple admin creation)
+      const existingUsers = await db.select().from(users).limit(1);
+      if (existingUsers.length > 0) {
+        return res.status(403).json({ 
+          error: "Admin user already exists. This endpoint is only available during initial setup." 
+        });
+      }
+
+      const hashedPassword = await bcrypt.hash(validatedData.password, 12);
+      const user = await storage.createUser({ 
+        username: validatedData.username, 
+        password: hashedPassword 
+      });
+      
+      res.status(201).json({ 
+        message: "Admin user created successfully", 
+        username: user.username 
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid user data", details: error.errors });
+      }
+      console.error("Create admin error:", error);
+      res.status(500).json({ error: "Failed to create admin user" });
+    }
+  });
   
   // Blog Posts API
   app.get("/api/blog-posts", async (req, res) => {
@@ -64,10 +201,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Admin APIs (Note: In production, these should be protected with authentication)
+  // Protected Admin APIs
   
   // Admin Blog Posts
-  app.get("/api/admin/blog-posts", async (req, res) => {
+  app.get("/api/admin/blog-posts", requireAuth, async (req, res) => {
     try {
       const posts = await storage.getAllBlogPosts();
       res.json(posts);
@@ -77,7 +214,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/blog-posts", async (req, res) => {
+  app.post("/api/admin/blog-posts", requireAuth, async (req, res) => {
     try {
       const validatedData = insertBlogPostSchema.parse(req.body);
       const post = await storage.createBlogPost(validatedData);
@@ -91,7 +228,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/admin/blog-posts/:id", async (req, res) => {
+  app.put("/api/admin/blog-posts/:id", requireAuth, async (req, res) => {
     try {
       const validatedData = insertBlogPostSchema.partial().parse(req.body);
       const post = await storage.updateBlogPost(req.params.id, validatedData);
@@ -108,7 +245,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/admin/blog-posts/:id", async (req, res) => {
+  app.delete("/api/admin/blog-posts/:id", requireAuth, async (req, res) => {
     try {
       const success = await storage.deleteBlogPost(req.params.id);
       if (!success) {
@@ -122,7 +259,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin Testimonials
-  app.get("/api/admin/testimonials", async (req, res) => {
+  app.get("/api/admin/testimonials", requireAuth, async (req, res) => {
     try {
       const testimonials = await storage.getAllTestimonials();
       res.json(testimonials);
@@ -132,7 +269,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/testimonials", async (req, res) => {
+  app.post("/api/admin/testimonials", requireAuth, async (req, res) => {
     try {
       const validatedData = insertTestimonialSchema.parse(req.body);
       const testimonial = await storage.createTestimonial(validatedData);
@@ -146,7 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/admin/testimonials/:id", async (req, res) => {
+  app.put("/api/admin/testimonials/:id", requireAuth, async (req, res) => {
     try {
       const validatedData = insertTestimonialSchema.partial().parse(req.body);
       const testimonial = await storage.updateTestimonial(req.params.id, validatedData);
@@ -163,7 +300,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/admin/testimonials/:id", async (req, res) => {
+  app.delete("/api/admin/testimonials/:id", requireAuth, async (req, res) => {
     try {
       const success = await storage.deleteTestimonial(req.params.id);
       if (!success) {
@@ -177,7 +314,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin Contacts
-  app.get("/api/admin/contacts", async (req, res) => {
+  app.get("/api/admin/contacts", requireAuth, async (req, res) => {
     try {
       const contacts = await storage.getAllContacts();
       res.json(contacts);
@@ -187,7 +324,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/admin/contacts/:id/status", async (req, res) => {
+  app.put("/api/admin/contacts/:id/status", requireAuth, async (req, res) => {
     try {
       const { status } = req.body;
       const contact = await storage.updateContactStatus(req.params.id, status);

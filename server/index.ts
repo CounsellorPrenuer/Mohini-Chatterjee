@@ -1,10 +1,46 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
+import connectPgSimple from "connect-pg-simple";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { db } from "./db";
 
 const app = express();
+
+// Trust proxy for secure cookies and proper IP detection behind reverse proxies
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Ensure SESSION_SECRET is set
+if (!process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET environment variable is required for security");
+}
+
+// Configure session middleware
+const PgSession = connectPgSimple(session);
+const isProduction = process.env.NODE_ENV === 'production';
+
+app.use(session({
+  store: new PgSession({
+    pool: db,
+    tableName: 'session',
+    createTableIfMissing: true // Automatically create session table if it doesn't exist
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  name: 'aakaar.sid', // Custom session name for security
+  cookie: {
+    secure: isProduction, // HTTPS only in production
+    httpOnly: true, // Prevent XSS
+    sameSite: 'lax', // CSRF protection
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days (shorter for security)
+  }
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();

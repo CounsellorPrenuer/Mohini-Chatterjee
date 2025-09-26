@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -6,12 +7,68 @@ import Dashboard from "@/components/admin/Dashboard";
 import BlogManager from "@/components/admin/BlogManager";
 import TestimonialManager from "@/components/admin/TestimonialManager";
 import ContactManager from "@/components/admin/ContactManager";
+import LoginForm from "@/components/admin/LoginForm";
 import { useLocation } from "wouter";
-import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail } from "lucide-react";
+import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail, LogOut } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function Admin() {
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("dashboard");
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  // Check authentication status
+  const { data: authData, isLoading: authLoading, refetch: refetchAuth } = useQuery({
+    queryKey: ['/api/auth/me'],
+    retry: false,
+  });
+
+  // Logout mutation
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest('POST', '/api/auth/logout');
+    },
+    onSuccess: () => {
+      queryClient.clear(); // Clear all queries on logout
+      toast({
+        title: "Logged out successfully",
+        description: "You have been signed out of the admin dashboard.",
+      });
+      refetchAuth();
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Logout failed",
+        description: error.message || "Failed to logout",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleLoginSuccess = () => {
+    refetchAuth();
+  };
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!authData?.authenticated) {
+    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -31,9 +88,23 @@ export default function Admin() {
             <div className="h-6 w-px bg-border" />
             <h1 className="text-2xl font-bold gradient-text">Aakaar Admin Dashboard</h1>
           </div>
-          <div className="flex items-center space-x-2">
-            <Settings className="h-5 w-5 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">Admin Panel</span>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Settings className="h-5 w-5 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">
+                Welcome, {authData?.username}
+              </span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLogout}
+              disabled={logoutMutation.isPending}
+              data-testid="button-logout"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              {logoutMutation.isPending ? "Signing out..." : "Logout"}
+            </Button>
           </div>
         </div>
       </div>
