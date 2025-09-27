@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
-import connectPgSimple from "connect-pg-simple";
+import MemoryStore from "memorystore";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db } from "./db";
@@ -21,14 +21,12 @@ if (!process.env.SESSION_SECRET) {
 }
 
 // Configure session middleware
-const PgSession = connectPgSimple(session);
+const MemStore = MemoryStore(session);
 const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(session({
-  store: new PgSession({
-    pool: db,
-    tableName: 'session',
-    createTableIfMissing: true // Automatically create session table if it doesn't exist
+  store: new MemStore({
+    checkPeriod: 86400000 // Prune expired entries every 24h
   }),
   secret: process.env.SESSION_SECRET,
   resave: false,
