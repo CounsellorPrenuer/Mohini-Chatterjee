@@ -10,23 +10,23 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="pt-16 gradient-bg min-h-screen flex items-center relative overflow-hidden">
+    <section id="home" className="pt-16 gradient-bg min-h-screen flex items-center relative overflow-hidden beam-bg">
       <div className="absolute inset-0 bg-black/10"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="text-white animate-fadeInUp">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 md:mb-6 leading-tight animate-glow">
               Redefining Career Journeys with{" "}
-              <span className="text-accent-foreground">Psychology, Purpose & Clarity</span>
+              <span className="text-accent-foreground animate-shimmer">Psychology, Purpose & Clarity</span>
             </h1>
-            <p className="text-lg md:text-xl mb-8 text-white/90 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl mb-6 md:mb-8 text-white/90 leading-relaxed">
               Guiding students, parents, professionals, schools, colleges, and corporates through career choices, personal growth, and future-proof success in a rapidly changing world.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
               <Button
                 size="lg"
                 onClick={() => scrollToSection("contact")}
-                className="bg-accent text-accent-foreground hover:bg-accent/90 transition-all transform hover:scale-105 text-lg font-semibold px-8 py-4"
+                className="w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-base md:text-lg font-semibold px-6 md:px-8 py-3 md:py-4 animate-glow"
                 data-testid="button-discovery-call"
               >
 Book a Free Discovery Call
@@ -35,16 +35,16 @@ Book a Free Discovery Call
                 size="lg"
                 variant="secondary"
                 onClick={() => scrollToSection("services")}
-                className="bg-card text-foreground hover:bg-card/90 transition-all transform hover:scale-105 text-lg font-semibold px-8 py-4"
+                className="w-full sm:w-auto bg-card text-foreground hover:bg-card/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg text-base md:text-lg font-semibold px-6 md:px-8 py-3 md:py-4 interactive-hover"
                 data-testid="button-explore-services"
               >
 Explore Our Services
               </Button>
             </div>
           </div>
-          <div className="relative animate-fadeInUp-delay-2">
+          <div className="relative animate-fadeInUp-delay-2 order-first lg:order-last mb-8 lg:mb-0">
             {/* Aakaar Shape Animation - Central Element */}
-            <div className="relative w-80 h-80 mx-auto">
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto interactive-hover">
               {/* Main Aakaar Shape */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm border border-white/30 animate-float">
                 <div className="absolute inset-8 rounded-full bg-gradient-to-tr from-accent/30 to-secondary/30 backdrop-blur-sm">

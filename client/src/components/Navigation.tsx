@@ -17,58 +17,58 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-card/95 backdrop-blur-sm border-b border-border">
+    <nav className="fixed top-0 w-full z-50 bg-card/95 backdrop-blur-sm border-b border-border beam-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3 interactive-hover">
             <img 
               src={aakarLogo} 
               alt="Aakaar Logo" 
-              className="w-20 h-20 object-contain"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-contain animate-glow"
             />
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-6 lg:space-x-8">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
               data-testid="nav-home"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection("about")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
               data-testid="nav-about"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("services")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
               data-testid="nav-services"
             >
               Services
             </button>
             <button
               onClick={() => scrollToSection("testimonials")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
               data-testid="nav-testimonials"
             >
               Testimonials
             </button>
             <button
               onClick={() => scrollToSection("blog")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
               data-testid="nav-blog"
             >
               Blog
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
               data-testid="nav-contact"
             >
               Contact

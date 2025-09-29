@@ -93,13 +93,13 @@ export default function Blog() {
 
   if (isLoading) {
     return (
-      <section id="blog" className="py-20 bg-muted/30">
+      <section id="blog" className="py-16 md:py-20 bg-muted/30 beam-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold gradient-text mb-6">Latest from Our Blog</h2>
-            <p className="text-xl text-muted-foreground">Insights on career planning, psychology, and personal growth</p>
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-4 md:mb-6 animate-glow">Latest from Our Blog</h2>
+            <p className="text-lg md:text-xl text-muted-foreground animate-slideInRight">Insights on career planning, psychology, and personal growth</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[...Array(3)].map((_, i) => (
               <Card key={i} className="animate-pulse">
                 <div className="h-48 bg-muted"></div>
@@ -118,14 +118,14 @@ export default function Blog() {
 
   return (
     <>
-      <section id="blog" className="py-20 bg-muted/30">
+      <section id="blog" className="py-16 md:py-20 bg-muted/30 beam-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold gradient-text mb-6">Latest from Our Blog</h2>
-            <p className="text-xl text-muted-foreground">Insights on career planning, psychology, and personal growth</p>
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-4 md:mb-6 animate-glow">Latest from Our Blog</h2>
+            <p className="text-lg md:text-xl text-muted-foreground animate-slideInRight">Insights on career planning, psychology, and personal growth</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {displayPosts.map((post, index) => (
               <Card 
                 key={post.id} 
