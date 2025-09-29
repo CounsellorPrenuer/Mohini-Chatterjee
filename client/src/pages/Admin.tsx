@@ -8,10 +8,11 @@ import BlogManager from "@/components/admin/BlogManager";
 import TestimonialManager from "@/components/admin/TestimonialManager";
 import ContactManager from "@/components/admin/ContactManager";
 import ServicePackageManager from "@/components/admin/ServicePackageManager";
+import PaymentManager from "@/components/admin/PaymentManager";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import LoginForm from "@/components/admin/LoginForm";
 import { useLocation } from "wouter";
-import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail, LogOut, TrendingUp, Package } from "lucide-react";
+import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail, LogOut, TrendingUp, Package, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -159,6 +160,14 @@ export default function Admin() {
                   Service Packages
                 </TabsTrigger>
                 <TabsTrigger
+                  value="payments"
+                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  data-testid="tab-payments"
+                >
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Payment Tracking
+                </TabsTrigger>
+                <TabsTrigger
                   value="analytics"
                   className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                   data-testid="tab-analytics"
@@ -189,6 +198,9 @@ export default function Admin() {
                 </TabsContent>
                 <TabsContent value="packages" className="mt-0">
                   <ServicePackageManager />
+                </TabsContent>
+                <TabsContent value="payments" className="mt-0">
+                  <PaymentManager />
                 </TabsContent>
                 <TabsContent value="analytics" className="mt-0">
                   <AnalyticsDashboard />
