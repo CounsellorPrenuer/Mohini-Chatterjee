@@ -27,7 +27,6 @@ export default function Navigation() {
               alt="Aakaar Logo" 
               className="w-10 h-10 object-contain"
             />
-            <span className="text-xl font-bold gradient-text">Aakaar</span>
           </div>
 
           {/* Desktop Navigation */}
