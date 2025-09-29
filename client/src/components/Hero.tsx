@@ -49,7 +49,10 @@ Explore Our Services
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm border border-white/30 animate-float">
                 <div className="absolute inset-8 rounded-full bg-gradient-to-tr from-accent/30 to-secondary/30 backdrop-blur-sm">
                   <div className="absolute inset-8 rounded-full bg-gradient-to-bl from-primary/40 to-white/10 flex items-center justify-center">
-                    <div className="text-white/80 text-6xl font-light">आकार</div>
+                    <div className="text-center">
+                      <div className="text-white text-4xl font-bold mb-2">AAKAAR</div>
+                      <div className="text-white/70 text-sm font-medium tracking-wider">SHAPE YOUR FUTURE</div>
+                    </div>
                   </div>
                 </div>
               </div>
