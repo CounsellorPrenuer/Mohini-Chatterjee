@@ -25,7 +25,7 @@ export default function Navigation() {
             <img 
               src={aakarLogo} 
               alt="Aakaar Logo" 
-              className="w-10 h-10 object-contain"
+              className="w-20 h-20 object-contain"
             />
           </div>
 
@@ -77,15 +77,6 @@ export default function Navigation() {
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setLocation("/admin")}
-              className="text-sm text-muted-foreground hover:text-primary"
-              data-testid="button-admin"
-            >
-              Admin
-            </Button>
             <Button
               onClick={() => scrollToSection("contact")}
               className="bg-primary text-primary-foreground hover:bg-primary/90"

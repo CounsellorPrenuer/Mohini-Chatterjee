@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Brain, Target, TrendingUp, Users, Lightbulb, Star, Compass, Heart } from "lucide-react";
+import { Brain, Target, TrendingUp, Users, Lightbulb, Star, Compass, Heart, Zap, ArrowRight } from "lucide-react";
 
 export default function Hero() {
   const scrollToSection = (sectionId: string) => {
@@ -49,9 +49,57 @@ Explore Our Services
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm border border-white/30 animate-float">
                 <div className="absolute inset-8 rounded-full bg-gradient-to-tr from-accent/30 to-secondary/30 backdrop-blur-sm">
                   <div className="absolute inset-8 rounded-full bg-gradient-to-bl from-primary/40 to-white/10 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-white text-4xl font-bold mb-2">AAKAAR</div>
-                      <div className="text-white/70 text-sm font-medium tracking-wider">SHAPE YOUR FUTURE</div>
+                    {/* Career Path Network Visualization */}
+                    <div className="relative w-full h-full flex items-center justify-center" role="img" aria-label="Career guidance network visualization">
+                      {/* Central Hub */}
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/90 rounded-full flex items-center justify-center z-10">
+                        <Brain className="w-8 h-8 text-primary" />
+                      </div>
+                      
+                      {/* Connected Career Elements */}
+                      <div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="w-12 h-12 bg-accent/90 rounded-full flex items-center justify-center">
+                          <Target className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
+                      
+                      <div className="absolute top-1/2 left-[80%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="w-10 h-10 bg-secondary/90 rounded-full flex items-center justify-center">
+                          <TrendingUp className="w-5 h-5 text-white" />
+                        </div>
+                      </div>
+                      
+                      <div className="absolute bottom-[20%] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="w-11 h-11 bg-primary/90 rounded-full flex items-center justify-center">
+                          <Lightbulb className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
+                      
+                      <div className="absolute top-1/2 left-[20%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="w-9 h-9 bg-accent/80 rounded-full flex items-center justify-center">
+                          <Users className="w-5 h-5 text-white" />
+                        </div>
+                      </div>
+                      
+                      {/* Connection Lines */}
+                      <div className="absolute inset-0 pointer-events-none">
+                        <svg className="w-full h-full" viewBox="0 0 100 100">
+                          <line x1="50" y1="50" x2="50" y2="20" stroke="white" strokeWidth="0.5" opacity="0.6" />
+                          <line x1="50" y1="50" x2="80" y2="50" stroke="white" strokeWidth="0.5" opacity="0.6" />
+                          <line x1="50" y1="50" x2="50" y2="80" stroke="white" strokeWidth="0.5" opacity="0.6" />
+                          <line x1="50" y1="50" x2="20" y2="50" stroke="white" strokeWidth="0.5" opacity="0.6" />
+                          <line x1="50" y1="50" x2="70" y2="30" stroke="white" strokeWidth="0.3" opacity="0.4" />
+                          <line x1="50" y1="50" x2="30" y2="70" stroke="white" strokeWidth="0.3" opacity="0.4" />
+                        </svg>
+                      </div>
+                      
+                      {/* Transformation Arrows */}
+                      <div className="absolute top-6 right-6 pointer-events-none">
+                        <ArrowRight className="w-4 h-4 text-white/60 animate-pulse" />
+                      </div>
+                      <div className="absolute bottom-6 left-6 pointer-events-none">
+                        <Zap className="w-4 h-4 text-accent/80 animate-pulse" />
+                      </div>
                     </div>
                   </div>
                 </div>
