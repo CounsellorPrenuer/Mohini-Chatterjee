@@ -45,15 +45,58 @@ export default function About() {
               ))}
             </div>
           </div>
-          <div className="relative animate-fadeInUp-delay-1">
-            <div className="aspect-[4/3] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl overflow-hidden">
-              <div className="w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-3xl">🎯</span>
+          <div className="space-y-6 animate-fadeInUp-delay-1">
+            {/* Key Statistics */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-6 text-center">
+                <div className="text-3xl font-bold gradient-text mb-2">10+</div>
+                <p className="text-sm text-muted-foreground">Years of Experience</p>
+              </div>
+              <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl p-6 text-center">
+                <div className="text-3xl font-bold gradient-text mb-2">1000+</div>
+                <p className="text-sm text-muted-foreground">Students Guided</p>
+              </div>
+            </div>
+            
+            {/* Core Values */}
+            <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl p-6">
+              <h4 className="text-xl font-semibold mb-4 text-center">Our Core Values</h4>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-lg">🎯</span>
                   </div>
-                  <h4 className="text-xl font-semibold mb-2">Team Collaboration</h4>
-                  <p className="text-muted-foreground">Working together towards career clarity</p>
+                  <div>
+                    <p className="font-medium">Clarity First</p>
+                    <p className="text-sm text-muted-foreground">Transforming confusion into clear direction</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-lg">🧠</span>
+                  </div>
+                  <div>
+                    <p className="font-medium">Psychology-Based</p>
+                    <p className="text-sm text-muted-foreground">Evidence-based counselling approach</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-lg">🤝</span>
+                  </div>
+                  <div>
+                    <p className="font-medium">Personalized Care</p>
+                    <p className="text-sm text-muted-foreground">Every journey is unique and valued</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-lg">⭐</span>
+                  </div>
+                  <div>
+                    <p className="font-medium">Empowerment</p>
+                    <p className="text-sm text-muted-foreground">Building confidence for life decisions</p>
+                  </div>
                 </div>
               </div>
             </div>
