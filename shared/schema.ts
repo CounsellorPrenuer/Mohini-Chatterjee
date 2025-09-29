@@ -42,6 +42,37 @@ export const contacts = pgTable("contacts", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const servicePackages = pgTable("service_packages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  price: integer("price").notNull(), // Price in cents
+  duration: text("duration"), // e.g., "1 hour", "3 sessions", "monthly"
+  features: text("features").array().notNull().default([]), // Array of features
+  category: text("category").notNull(), // career-counseling, workshops, assessments, etc.
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const payments = pgTable("payments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  contactId: varchar("contact_id").references(() => contacts.id),
+  packageId: varchar("package_id").references(() => servicePackages.id),
+  customerName: text("customer_name").notNull(),
+  customerEmail: text("customer_email").notNull(),
+  amount: integer("amount").notNull(), // Amount in cents
+  currency: text("currency").notNull().default("usd"),
+  status: text("status").notNull().default("pending"), // pending, completed, failed, refunded
+  paymentMethod: text("payment_method"), // card, bank_transfer, etc.
+  transactionId: text("transaction_id"), // Stripe payment intent ID or similar
+  stripeSessionId: text("stripe_session_id"), // Stripe checkout session ID
+  metadata: json("metadata"), // Additional payment data
+  paidAt: timestamp("paid_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // Analytics Tables
 export const sessions = pgTable("sessions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -120,6 +151,18 @@ export const insertContactSchema = createInsertSchema(contacts).omit({
   status: true,
 });
 
+export const insertServicePackageSchema = createInsertSchema(servicePackages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertPaymentSchema = createInsertSchema(payments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Analytics schemas
 export const insertSessionSchema = createInsertSchema(sessions).omit({
   id: true,
@@ -145,6 +188,10 @@ export type Testimonial = typeof testimonials.$inferSelect;
 export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
 export type Contact = typeof contacts.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;
+export type ServicePackage = typeof servicePackages.$inferSelect;
+export type InsertServicePackage = z.infer<typeof insertServicePackageSchema>;
+export type Payment = typeof payments.$inferSelect;
+export type InsertPayment = z.infer<typeof insertPaymentSchema>;
 
 // Analytics types
 export type Session = typeof sessions.$inferSelect;

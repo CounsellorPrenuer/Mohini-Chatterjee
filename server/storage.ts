@@ -3,6 +3,8 @@ import {
   blogPosts, 
   testimonials, 
   contacts,
+  servicePackages,
+  payments,
   sessions,
   pageViews,
   events,
@@ -14,6 +16,10 @@ import {
   type InsertTestimonial,
   type Contact,
   type InsertContact,
+  type ServicePackage,
+  type InsertServicePackage,
+  type Payment,
+  type InsertPayment,
   type Session,
   type InsertSession,
   type PageView,
@@ -51,6 +57,23 @@ export interface IStorage {
   createContact(contact: InsertContact): Promise<Contact>;
   updateContactStatus(id: string, status: string): Promise<Contact | undefined>;
   deleteContact(id: string): Promise<boolean>;
+  
+  // Service packages
+  getAllServicePackages(): Promise<ServicePackage[]>;
+  getActiveServicePackages(): Promise<ServicePackage[]>;
+  getServicePackage(id: string): Promise<ServicePackage | undefined>;
+  createServicePackage(servicePackage: InsertServicePackage): Promise<ServicePackage>;
+  updateServicePackage(id: string, servicePackage: Partial<InsertServicePackage>): Promise<ServicePackage | undefined>;
+  deleteServicePackage(id: string): Promise<boolean>;
+  
+  // Payments
+  getAllPayments(): Promise<Payment[]>;
+  getPayment(id: string): Promise<Payment | undefined>;
+  getPaymentsByStatus(status: string): Promise<Payment[]>;
+  getPaymentsByCustomer(customerEmail: string): Promise<Payment[]>;
+  createPayment(payment: InsertPayment): Promise<Payment>;
+  updatePayment(id: string, payment: Partial<InsertPayment>): Promise<Payment | undefined>;
+  deletePayment(id: string): Promise<boolean>;
   
   // Analytics
   createSession(session: InsertSession): Promise<Session>;
@@ -194,6 +217,88 @@ export class DatabaseStorage implements IStorage {
 
   async deleteContact(id: string): Promise<boolean> {
     const result = await db.delete(contacts).where(eq(contacts.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Service packages
+  async getAllServicePackages(): Promise<ServicePackage[]> {
+    return await db.select().from(servicePackages).orderBy(desc(servicePackages.createdAt));
+  }
+
+  async getActiveServicePackages(): Promise<ServicePackage[]> {
+    return await db.select().from(servicePackages)
+      .where(eq(servicePackages.isActive, true))
+      .orderBy(desc(servicePackages.createdAt));
+  }
+
+  async getServicePackage(id: string): Promise<ServicePackage | undefined> {
+    const [servicePackage] = await db.select().from(servicePackages).where(eq(servicePackages.id, id));
+    return servicePackage || undefined;
+  }
+
+  async createServicePackage(servicePackage: InsertServicePackage): Promise<ServicePackage> {
+    const [created] = await db
+      .insert(servicePackages)
+      .values(servicePackage)
+      .returning();
+    return created;
+  }
+
+  async updateServicePackage(id: string, servicePackage: Partial<InsertServicePackage>): Promise<ServicePackage | undefined> {
+    const [updated] = await db
+      .update(servicePackages)
+      .set({ ...servicePackage, updatedAt: new Date() })
+      .where(eq(servicePackages.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deleteServicePackage(id: string): Promise<boolean> {
+    const result = await db.delete(servicePackages).where(eq(servicePackages.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Payments
+  async getAllPayments(): Promise<Payment[]> {
+    return await db.select().from(payments).orderBy(desc(payments.createdAt));
+  }
+
+  async getPayment(id: string): Promise<Payment | undefined> {
+    const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+    return payment || undefined;
+  }
+
+  async getPaymentsByStatus(status: string): Promise<Payment[]> {
+    return await db.select().from(payments)
+      .where(eq(payments.status, status))
+      .orderBy(desc(payments.createdAt));
+  }
+
+  async getPaymentsByCustomer(customerEmail: string): Promise<Payment[]> {
+    return await db.select().from(payments)
+      .where(eq(payments.customerEmail, customerEmail))
+      .orderBy(desc(payments.createdAt));
+  }
+
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    const [created] = await db
+      .insert(payments)
+      .values(payment)
+      .returning();
+    return created;
+  }
+
+  async updatePayment(id: string, payment: Partial<InsertPayment>): Promise<Payment | undefined> {
+    const [updated] = await db
+      .update(payments)
+      .set({ ...payment, updatedAt: new Date() })
+      .where(eq(payments.id, id))
+      .returning();
+    return updated || undefined;
+  }
+
+  async deletePayment(id: string): Promise<boolean> {
+    const result = await db.delete(payments).where(eq(payments.id, id));
     return (result.rowCount ?? 0) > 0;
   }
 

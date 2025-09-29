@@ -9,6 +9,8 @@ import {
   insertBlogPostSchema, 
   insertTestimonialSchema, 
   insertContactSchema,
+  insertServicePackageSchema,
+  insertPaymentSchema,
   insertUserSchema,
   insertSessionSchema,
   insertPageViewSchema,
@@ -338,6 +340,124 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating contact status:", error);
       res.status(500).json({ error: "Failed to update contact status" });
+    }
+  });
+
+  // Admin Service Packages
+  app.get("/api/admin/service-packages", requireAuth, async (req, res) => {
+    try {
+      const packages = await storage.getAllServicePackages();
+      res.json(packages);
+    } catch (error) {
+      console.error("Error fetching admin service packages:", error);
+      res.status(500).json({ error: "Failed to fetch service packages" });
+    }
+  });
+
+  app.post("/api/admin/service-packages", requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertServicePackageSchema.parse(req.body);
+      const servicePackage = await storage.createServicePackage(validatedData);
+      res.status(201).json(servicePackage);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid service package data", details: error.errors });
+      }
+      console.error("Error creating service package:", error);
+      res.status(500).json({ error: "Failed to create service package" });
+    }
+  });
+
+  app.put("/api/admin/service-packages/:id", requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertServicePackageSchema.partial().parse(req.body);
+      const servicePackage = await storage.updateServicePackage(req.params.id, validatedData);
+      if (!servicePackage) {
+        return res.status(404).json({ error: "Service package not found" });
+      }
+      res.json(servicePackage);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid service package data", details: error.errors });
+      }
+      console.error("Error updating service package:", error);
+      res.status(500).json({ error: "Failed to update service package" });
+    }
+  });
+
+  app.delete("/api/admin/service-packages/:id", requireAuth, async (req, res) => {
+    try {
+      const success = await storage.deleteServicePackage(req.params.id);
+      if (!success) {
+        return res.status(404).json({ error: "Service package not found" });
+      }
+      res.json({ message: "Service package deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting service package:", error);
+      res.status(500).json({ error: "Failed to delete service package" });
+    }
+  });
+
+  // Admin Payments
+  app.get("/api/admin/payments", requireAuth, async (req, res) => {
+    try {
+      const payments = await storage.getAllPayments();
+      res.json(payments);
+    } catch (error) {
+      console.error("Error fetching admin payments:", error);
+      res.status(500).json({ error: "Failed to fetch payments" });
+    }
+  });
+
+  app.get("/api/admin/payments/status/:status", requireAuth, async (req, res) => {
+    try {
+      const payments = await storage.getPaymentsByStatus(req.params.status);
+      res.json(payments);
+    } catch (error) {
+      console.error("Error fetching payments by status:", error);
+      res.status(500).json({ error: "Failed to fetch payments" });
+    }
+  });
+
+  app.post("/api/admin/payments", requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertPaymentSchema.parse(req.body);
+      const payment = await storage.createPayment(validatedData);
+      res.status(201).json(payment);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid payment data", details: error.errors });
+      }
+      console.error("Error creating payment:", error);
+      res.status(500).json({ error: "Failed to create payment" });
+    }
+  });
+
+  app.put("/api/admin/payments/:id", requireAuth, async (req, res) => {
+    try {
+      const validatedData = insertPaymentSchema.partial().parse(req.body);
+      const payment = await storage.updatePayment(req.params.id, validatedData);
+      if (!payment) {
+        return res.status(404).json({ error: "Payment not found" });
+      }
+      res.json(payment);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid payment data", details: error.errors });
+      }
+      console.error("Error updating payment:", error);
+      res.status(500).json({ error: "Failed to update payment" });
+    }
+  });
+
+  // Public Service Packages API (for frontend)
+  app.get("/api/service-packages", async (req, res) => {
+    try {
+      const packages = await storage.getActiveServicePackages();
+      res.json(packages);
+    } catch (error) {
+      console.error("Error fetching service packages:", error);
+      res.status(500).json({ error: "Failed to fetch service packages" });
     }
   });
 
