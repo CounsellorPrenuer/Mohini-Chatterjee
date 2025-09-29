@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Target, Brain, HandHeart, Star, GraduationCap, School, Users, Heart } from "lucide-react";
 import mohiniImage from "@assets/WhatsApp Image 2024-12-12 at 10.53.11 PM(1)(1) - Mohini Chatterjee_1758871553313.png";
 
 export default function About() {
@@ -11,10 +11,10 @@ export default function About() {
   ];
 
   const specializations = [
-    { icon: "🎓", text: "Career Guidance" },
-    { icon: "🏫", text: "Admission Counselling" },
-    { icon: "👥", text: "Leadership Development" },
-    { icon: "🧠", text: "Psychological Wellbeing" }
+    { icon: GraduationCap, text: "Career Guidance" },
+    { icon: School, text: "Admission Counselling" },
+    { icon: Users, text: "Leadership Development" },
+    { icon: Heart, text: "Psychological Wellbeing" }
   ];
 
   return (
@@ -64,7 +64,7 @@ export default function About() {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg">🎯</span>
+                    <Target className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <p className="font-medium">Clarity First</p>
@@ -73,7 +73,7 @@ export default function About() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg">🧠</span>
+                    <Brain className="w-5 h-5 text-secondary" />
                   </div>
                   <div>
                     <p className="font-medium">Psychology-Based</p>
@@ -82,7 +82,7 @@ export default function About() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg">🤝</span>
+                    <HandHeart className="w-5 h-5 text-accent" />
                   </div>
                   <div>
                     <p className="font-medium">Personalized Care</p>
@@ -91,7 +91,7 @@ export default function About() {
                 </div>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg">⭐</span>
+                    <Star className="w-5 h-5 text-primary" />
                   </div>
                   <div>
                     <p className="font-medium">Empowerment</p>
@@ -134,12 +134,15 @@ export default function About() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {specializations.map((spec, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <span className="text-lg">{spec.icon}</span>
-                      <span className="text-sm font-medium">{spec.text}</span>
-                    </div>
-                  ))}
+                  {specializations.map((spec, index) => {
+                    const IconComponent = spec.icon;
+                    return (
+                      <div key={index} className="flex items-center space-x-2">
+                        <IconComponent className="w-4 h-4 text-primary" />
+                        <span className="text-sm font-medium">{spec.text}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

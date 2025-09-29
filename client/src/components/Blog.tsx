@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { BookOpen, X } from "lucide-react";
 import type { BlogPost } from "@shared/schema";
 
 interface BlogModalProps {
@@ -14,6 +15,7 @@ interface BlogModalProps {
 export default function Blog() {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showAllPosts, setShowAllPosts] = useState(false);
 
   const { data: posts = [], isLoading } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog-posts"],
@@ -86,7 +88,8 @@ export default function Blog() {
     }
   ];
 
-  const displayPosts = posts.length > 0 ? posts : fallbackPosts;
+  const allPosts = posts.length > 0 ? posts : fallbackPosts;
+  const displayPosts = showAllPosts ? allPosts : allPosts.slice(0, 3);
 
   if (isLoading) {
     return (
@@ -123,7 +126,7 @@ export default function Blog() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {displayPosts.slice(0, 3).map((post, index) => (
+            {displayPosts.map((post, index) => (
               <Card 
                 key={post.id} 
                 className="card-hover animate-fadeInUp overflow-hidden"
@@ -133,7 +136,7 @@ export default function Blog() {
                 <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-primary/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-2xl">📚</span>
+                      <BookOpen className="w-8 h-8 text-primary" />
                     </div>
                     <p className="text-sm text-muted-foreground">{post.category}</p>
                   </div>
@@ -162,6 +165,33 @@ export default function Blog() {
               </Card>
             ))}
           </div>
+
+          {!showAllPosts && allPosts.length > 3 && (
+            <div className="text-center mt-12">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => setShowAllPosts(true)}
+                className="gradient-border"
+                data-testid="button-view-all-articles"
+              >
+                View All Articles
+              </Button>
+            </div>
+          )}
+
+          {showAllPosts && allPosts.length > 3 && (
+            <div className="text-center mt-12">
+              <Button
+                variant="ghost"
+                onClick={() => setShowAllPosts(false)}
+                className="text-muted-foreground hover:text-foreground"
+                data-testid="button-show-less"
+              >
+                Show Less
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -187,7 +217,7 @@ export default function Blog() {
                   className="text-muted-foreground hover:text-foreground"
                   data-testid="button-close-modal"
                 >
-                  ✕
+                  <X className="w-4 h-4" />
                 </Button>
               </div>
               <div 
