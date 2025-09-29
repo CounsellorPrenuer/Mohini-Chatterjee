@@ -7,12 +7,22 @@ import Dashboard from "@/components/admin/Dashboard";
 import BlogManager from "@/components/admin/BlogManager";
 import TestimonialManager from "@/components/admin/TestimonialManager";
 import ContactManager from "@/components/admin/ContactManager";
+import ServicePackageManager from "@/components/admin/ServicePackageManager";
 import AnalyticsDashboard from "@/components/admin/AnalyticsDashboard";
 import LoginForm from "@/components/admin/LoginForm";
 import { useLocation } from "wouter";
-import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail, LogOut, TrendingUp } from "lucide-react";
+import { ArrowLeft, Settings, BarChart3, FileText, MessageSquare, Mail, LogOut, TrendingUp, Package } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+
+interface AuthData {
+  authenticated: boolean;
+  username?: string;
+}
+
+function isAuthData(data: unknown): data is AuthData {
+  return data != null && typeof data === 'object' && 'authenticated' in data;
+}
 
 export default function Admin() {
   const [, setLocation] = useLocation();
@@ -67,7 +77,7 @@ export default function Admin() {
     );
   }
 
-  if (!authData?.authenticated) {
+  if (!authData || !isAuthData(authData) || !authData.authenticated) {
     return <LoginForm onLoginSuccess={handleLoginSuccess} />;
   }
 
@@ -93,7 +103,7 @@ export default function Admin() {
             <div className="flex items-center space-x-2">
               <Settings className="h-5 w-5 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">
-                Welcome, {authData?.username}
+                Welcome, {isAuthData(authData) ? authData.username || 'User' : 'User'}
               </span>
             </div>
             <Button
@@ -141,6 +151,14 @@ export default function Admin() {
                   Testimonials
                 </TabsTrigger>
                 <TabsTrigger
+                  value="packages"
+                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  data-testid="tab-packages"
+                >
+                  <Package className="h-4 w-4 mr-2" />
+                  Service Packages
+                </TabsTrigger>
+                <TabsTrigger
                   value="analytics"
                   className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                   data-testid="tab-analytics"
@@ -168,6 +186,9 @@ export default function Admin() {
                 </TabsContent>
                 <TabsContent value="testimonials" className="mt-0">
                   <TestimonialManager />
+                </TabsContent>
+                <TabsContent value="packages" className="mt-0">
+                  <ServicePackageManager />
                 </TabsContent>
                 <TabsContent value="analytics" className="mt-0">
                   <AnalyticsDashboard />

@@ -475,7 +475,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const updated = await storage.updateSession(validatedData.sessionId, {
           pageViews: isPageViewUpdate ? (existingSession.pageViews || 0) + 1 : existingSession.pageViews,
           duration: validatedData.duration || existingSession.duration,
-          lastActivityAt: new Date(), // Update last activity timestamp
         });
         return res.json(updated);
       }
