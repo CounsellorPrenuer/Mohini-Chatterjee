@@ -56,6 +56,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     legacyHeaders: false,
   });
 
+  const paymentLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // Limit to 10 payment attempts per window per IP
+    message: { error: "Too many payment attempts. Please try again later." },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
   // Authentication Routes
   app.post("/api/auth/login", authLimiter, async (req, res) => {
     try {
@@ -469,13 +477,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     key_secret: process.env.RAZORPAY_KEY_SECRET || '',
   });
 
-  app.post("/api/payments/create-order", async (req, res) => {
+  app.post("/api/payments/create-order", paymentLimiter, async (req, res) => {
     try {
-      const { amount, packageId, customerName, customerEmail, customerPhone } = req.body;
+      const { packageId, customerName, customerEmail, customerPhone } = req.body;
 
-      if (!amount || !packageId || !customerName || !customerEmail || !customerPhone) {
+      if (!packageId || !customerName || !customerEmail || !customerPhone) {
         return res.status(400).json({ error: "Missing required fields" });
       }
+
+      // Validate phone number
+      if (!/^[6-9]\d{9}$/.test(customerPhone)) {
+        return res.status(400).json({ error: "Invalid phone number" });
+      }
+
+      // Get package from database (server-side price verification)
+      const servicePackage = await storage.getServicePackage(packageId);
+      
+      if (!servicePackage) {
+        return res.status(404).json({ error: "Service package not found" });
+      }
+
+      if (!servicePackage.isActive) {
+        return res.status(400).json({ error: "Service package is not available" });
+      }
+
+      // Use server-side amount (cannot be tampered by client)
+      const amount = servicePackage.price;
 
       const options = {
         amount: amount,
@@ -493,9 +520,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         amount,
         status: 'pending',
         packageId,
+        currency: 'INR',
         metadata: JSON.stringify({ 
           orderId: order.id,
-          customerPhone
+          customerPhone,
+          packageName: servicePackage.name
         })
       });
 
@@ -511,7 +540,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/payments/verify", async (req, res) => {
+  app.post("/api/payments/verify", paymentLimiter, async (req, res) => {
     try {
       const { razorpay_order_id, razorpay_payment_id, razorpay_signature, paymentId } = req.body;
 
@@ -519,6 +548,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
+      // Get payment record to verify it belongs to this order
+      const payment = await storage.getPayment(paymentId);
+      
+      if (!payment) {
+        return res.status(404).json({ error: "Payment not found" });
+      }
+
+      // Check if already completed (idempotency)
+      if (payment.status === 'completed') {
+        return res.json({ 
+          message: "Payment already verified",
+          payment
+        });
+      }
+
+      // Verify that the stored order ID matches the one being verified
+      if (payment.transactionId !== razorpay_order_id) {
+        return res.status(400).json({ error: "Payment order mismatch" });
+      }
+
+      // Verify signature
       const sign = razorpay_order_id + "|" + razorpay_payment_id;
       const expectedSign = crypto
         .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET || '')
@@ -526,13 +576,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         .digest("hex");
 
       if (razorpay_signature === expectedSign) {
+        // Parse existing metadata to preserve phone and package name
+        let existingMetadata = {};
+        try {
+          existingMetadata = payment.metadata ? JSON.parse(payment.metadata as string) : {};
+        } catch (e) {
+          existingMetadata = {};
+        }
+
         const updatedPayment = await storage.updatePayment(paymentId, {
           status: 'completed',
-          transactionId: razorpay_payment_id,
+          paymentMethod: 'razorpay',
+          paidAt: new Date(),
           metadata: JSON.stringify({
-            orderId: razorpay_order_id,
-            paymentId: razorpay_payment_id,
-            signature: razorpay_signature,
+            ...existingMetadata,
+            razorpayOrderId: razorpay_order_id,
+            razorpayPaymentId: razorpay_payment_id,
+            razorpaySignature: razorpay_signature,
             verifiedAt: new Date().toISOString()
           })
         });
@@ -546,7 +606,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           status: 'failed',
           metadata: JSON.stringify({ 
             error: 'Invalid signature',
-            attemptedAt: new Date().toISOString()
+            attemptedAt: new Date().toISOString(),
+            razorpayOrderId: razorpay_order_id,
+            razorpayPaymentId: razorpay_payment_id
           })
         });
 

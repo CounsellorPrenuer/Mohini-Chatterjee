@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Package as PackageIcon } from "lucide-react";
 import type { ServicePackage } from "@shared/schema";
-import PaymentDialog from "./PaymentDialog";
+import PaymentDialog from "@/components/PaymentDialog";
 
 export default function ServicePackages() {
   const [selectedPackage, setSelectedPackage] = useState<ServicePackage | null>(null);
