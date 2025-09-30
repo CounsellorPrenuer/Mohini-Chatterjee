@@ -328,12 +328,21 @@ export default function ServicePackageManager() {
                   <label className="text-sm font-medium">Features (comma-separated)</label>
                   <Textarea
                     value={featuresInput}
-                    onChange={(e) => setFeaturesInput(e.target.value)}
+                    onChange={(e) => {
+                      setFeaturesInput(e.target.value);
+                      const features = e.target.value.split(',').map(f => f.trim()).filter(f => f.length > 0);
+                      form.setValue('features', features);
+                    }}
                     placeholder="Personality assessment, Skills evaluation, Career recommendations, Follow-up session"
                     rows={3}
                     className="mt-2"
                     data-testid="textarea-features"
                   />
+                  {form.formState.errors.features && (
+                    <p className="text-sm font-medium text-destructive mt-2">
+                      {form.formState.errors.features.message}
+                    </p>
+                  )}
                 </div>
 
                 <FormField
