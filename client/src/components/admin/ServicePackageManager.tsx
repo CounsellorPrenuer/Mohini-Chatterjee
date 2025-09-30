@@ -20,7 +20,7 @@ import { z } from "zod";
 
 const servicePackageFormSchema = insertServicePackageSchema.extend({
   features: z.array(z.string()).min(1, "At least one feature is required"),
-  price: z.coerce.number().min(100, "Price must be at least ₹1 (100 paise)"),
+  price: z.coerce.number().min(1, "Price must be at least ₹1"),
 });
 
 type ServicePackageFormData = z.infer<typeof servicePackageFormSchema>;
@@ -41,7 +41,7 @@ export default function ServicePackageManager() {
     defaultValues: {
       name: "",
       description: "",
-      price: 0,
+      price: 1,
       duration: "",
       features: [],
       category: "",
@@ -122,7 +122,9 @@ export default function ServicePackageManager() {
   const onSubmit = (data: ServicePackageFormData) => {
     // Parse features from comma-separated string
     const features = featuresInput.split(',').map(f => f.trim()).filter(f => f.length > 0);
-    const packageData = { ...data, features };
+    // Convert rupees to paise for storage (₹50 becomes 5000 paise)
+    const priceInPaise = Math.round(data.price * 100);
+    const packageData = { ...data, price: priceInPaise, features };
 
     if (editingPackage) {
       updatePackage.mutate({ id: editingPackage.id, data: packageData });
@@ -133,10 +135,12 @@ export default function ServicePackageManager() {
 
   const handleEdit = (pkg: ServicePackage) => {
     setEditingPackage(pkg);
+    // Convert paise to rupees for display (5000 paise becomes ₹50)
+    const priceInRupees = pkg.price / 100;
     form.reset({
       name: pkg.name,
       description: pkg.description,
-      price: pkg.price,
+      price: priceInRupees,
       duration: pkg.duration || "",
       features: pkg.features,
       category: pkg.category,
@@ -295,19 +299,20 @@ export default function ServicePackageManager() {
                     name="price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Price (in paise)</FormLabel>
+                        <FormLabel>Price (₹)</FormLabel>
                         <FormControl>
                           <Input 
                             {...field} 
                             type="number" 
-                            min="100" 
-                            placeholder="5000" 
+                            min="1" 
+                            step="0.01"
+                            placeholder="50" 
                             data-testid="input-price"
                           />
                         </FormControl>
                         <FormMessage />
                         <p className="text-xs text-muted-foreground mt-1">
-                          100 paise = ₹1. Example: 5000 paise = ₹50
+                          Enter amount in rupees. Example: 50 for ₹50, 100 for ₹100
                         </p>
                       </FormItem>
                     )}
