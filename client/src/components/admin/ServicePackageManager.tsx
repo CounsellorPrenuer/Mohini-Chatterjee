@@ -20,7 +20,7 @@ import { z } from "zod";
 
 const servicePackageFormSchema = insertServicePackageSchema.extend({
   features: z.array(z.string()).min(1, "At least one feature is required"),
-  price: z.coerce.number().min(0, "Price must be non-negative"),
+  price: z.coerce.number().min(100, "Price must be at least ₹1 (100 paise)"),
 });
 
 type ServicePackageFormData = z.infer<typeof servicePackageFormSchema>;
@@ -152,8 +152,8 @@ export default function ServicePackageManager() {
     }
   };
 
-  const formatPrice = (priceInCents: number) => {
-    return `$${(priceInCents / 100).toFixed(2)}`;
+  const formatPrice = (priceInPaise: number) => {
+    return `₹${(priceInPaise / 100).toFixed(2)}`;
   };
 
   if (isLoading) {
@@ -295,17 +295,20 @@ export default function ServicePackageManager() {
                     name="price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Price (in cents)</FormLabel>
+                        <FormLabel>Price (in paise)</FormLabel>
                         <FormControl>
                           <Input 
                             {...field} 
                             type="number" 
-                            min="0" 
+                            min="100" 
                             placeholder="5000" 
                             data-testid="input-price"
                           />
                         </FormControl>
                         <FormMessage />
+                        <p className="text-xs text-muted-foreground mt-1">
+                          100 paise = ₹1. Example: 5000 paise = ₹50
+                        </p>
                       </FormItem>
                     )}
                   />

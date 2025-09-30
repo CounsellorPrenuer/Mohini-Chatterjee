@@ -84,8 +84,8 @@ export default function PaymentManager() {
     }
   };
 
-  const formatPrice = (priceInCents: number) => {
-    return `$${(priceInCents / 100).toFixed(2)}`;
+  const formatPrice = (priceInPaise: number) => {
+    return `₹${(priceInPaise / 100).toFixed(2)}`;
   };
 
   const filteredPayments = payments.filter(payment => {
