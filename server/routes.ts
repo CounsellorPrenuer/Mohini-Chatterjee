@@ -2,6 +2,8 @@ import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import rateLimit from "express-rate-limit";
 import bcrypt from "bcryptjs";
+import Razorpay from "razorpay";
+import crypto from "crypto";
 import { storage } from "./storage";
 import { db } from "./db";
 import { users } from "@shared/schema";
@@ -458,6 +460,101 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching service packages:", error);
       res.status(500).json({ error: "Failed to fetch service packages" });
+    }
+  });
+
+  // Payment Gateway API (Razorpay)
+  const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID || '',
+    key_secret: process.env.RAZORPAY_KEY_SECRET || '',
+  });
+
+  app.post("/api/payments/create-order", async (req, res) => {
+    try {
+      const { amount, packageId, customerName, customerEmail, customerPhone } = req.body;
+
+      if (!amount || !packageId || !customerName || !customerEmail || !customerPhone) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const options = {
+        amount: amount,
+        currency: 'INR',
+        receipt: `order_${Date.now()}`,
+        payment_capture: 1
+      };
+
+      const order = await razorpay.orders.create(options);
+
+      const payment = await storage.createPayment({
+        transactionId: order.id,
+        customerName,
+        customerEmail,
+        amount,
+        status: 'pending',
+        packageId,
+        metadata: JSON.stringify({ 
+          orderId: order.id,
+          customerPhone
+        })
+      });
+
+      res.json({
+        orderId: order.id,
+        amount: order.amount,
+        currency: order.currency,
+        paymentId: payment.id
+      });
+    } catch (error) {
+      console.error("Error creating order:", error);
+      res.status(500).json({ error: "Failed to create order" });
+    }
+  });
+
+  app.post("/api/payments/verify", async (req, res) => {
+    try {
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature, paymentId } = req.body;
+
+      if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !paymentId) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const sign = razorpay_order_id + "|" + razorpay_payment_id;
+      const expectedSign = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET || '')
+        .update(sign.toString())
+        .digest("hex");
+
+      if (razorpay_signature === expectedSign) {
+        const updatedPayment = await storage.updatePayment(paymentId, {
+          status: 'completed',
+          transactionId: razorpay_payment_id,
+          metadata: JSON.stringify({
+            orderId: razorpay_order_id,
+            paymentId: razorpay_payment_id,
+            signature: razorpay_signature,
+            verifiedAt: new Date().toISOString()
+          })
+        });
+
+        res.json({ 
+          message: "Payment verified successfully",
+          payment: updatedPayment
+        });
+      } else {
+        await storage.updatePayment(paymentId, {
+          status: 'failed',
+          metadata: JSON.stringify({ 
+            error: 'Invalid signature',
+            attemptedAt: new Date().toISOString()
+          })
+        });
+
+        res.status(400).json({ error: "Invalid signature" });
+      }
+    } catch (error) {
+      console.error("Error verifying payment:", error);
+      res.status(500).json({ error: "Failed to verify payment" });
     }
   });
 
