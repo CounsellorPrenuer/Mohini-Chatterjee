@@ -121,101 +121,96 @@ export default function Admin() {
         </div>
       </div>
 
-      <div className="flex">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-card border-r border-border min-h-screen">
+        <div className="w-64 bg-card border-r border-border min-h-[calc(100vh-4rem)]">
           <nav className="p-4">
-            <Tabs value={activeTab} onValueChange={setActiveTab} orientation="vertical">
-              <TabsList className="grid w-full grid-cols-1 h-auto bg-transparent p-0 space-y-1">
-                <TabsTrigger
-                  value="dashboard"
-                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  data-testid="tab-dashboard"
-                >
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Dashboard
-                </TabsTrigger>
-                <TabsTrigger
-                  value="blog"
-                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  data-testid="tab-blog"
-                >
-                  <FileText className="h-4 w-4 mr-2" />
-                  Blog Posts
-                </TabsTrigger>
-                <TabsTrigger
-                  value="testimonials"
-                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  data-testid="tab-testimonials"
-                >
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Testimonials
-                </TabsTrigger>
-                <TabsTrigger
-                  value="packages"
-                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  data-testid="tab-packages"
-                >
-                  <Package className="h-4 w-4 mr-2" />
-                  Service Packages
-                </TabsTrigger>
-                <TabsTrigger
-                  value="payments"
-                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  data-testid="tab-payments"
-                >
-                  <CreditCard className="h-4 w-4 mr-2" />
-                  Payment Tracking
-                </TabsTrigger>
-                <TabsTrigger
-                  value="analytics"
-                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  data-testid="tab-analytics"
-                >
-                  <TrendingUp className="h-4 w-4 mr-2" />
-                  Analytics
-                </TabsTrigger>
-                <TabsTrigger
-                  value="contacts"
-                  className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                  data-testid="tab-contacts"
-                >
-                  <Mail className="h-4 w-4 mr-2" />
-                  Contact Forms
-                </TabsTrigger>
-              </TabsList>
-
-              {/* Main Content */}
-              <div className="flex-1">
-                <TabsContent value="dashboard" className="mt-0">
-                  <Dashboard />
-                </TabsContent>
-                <TabsContent value="blog" className="mt-0">
-                  <BlogManager />
-                </TabsContent>
-                <TabsContent value="testimonials" className="mt-0">
-                  <TestimonialManager />
-                </TabsContent>
-                <TabsContent value="packages" className="mt-0">
-                  <ServicePackageManager />
-                </TabsContent>
-                <TabsContent value="payments" className="mt-0">
-                  <PaymentManager />
-                </TabsContent>
-                <TabsContent value="analytics" className="mt-0">
-                  <AnalyticsDashboard />
-                </TabsContent>
-                <TabsContent value="contacts" className="mt-0">
-                  <ContactManager />
-                </TabsContent>
-              </div>
-            </Tabs>
+            <TabsList className="grid w-full grid-cols-1 h-auto bg-transparent p-0 space-y-1">
+              <TabsTrigger
+                value="dashboard"
+                className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                data-testid="tab-dashboard"
+              >
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger
+                value="blog"
+                className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                data-testid="tab-blog"
+              >
+                <FileText className="h-4 w-4 mr-2" />
+                Blog Posts
+              </TabsTrigger>
+              <TabsTrigger
+                value="testimonials"
+                className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                data-testid="tab-testimonials"
+              >
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Testimonials
+              </TabsTrigger>
+              <TabsTrigger
+                value="packages"
+                className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                data-testid="tab-packages"
+              >
+                <Package className="h-4 w-4 mr-2" />
+                Service Packages
+              </TabsTrigger>
+              <TabsTrigger
+                value="payments"
+                className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                data-testid="tab-payments"
+              >
+                <CreditCard className="h-4 w-4 mr-2" />
+                Payment Tracking
+              </TabsTrigger>
+              <TabsTrigger
+                value="analytics"
+                className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                data-testid="tab-analytics"
+              >
+                <TrendingUp className="h-4 w-4 mr-2" />
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger
+                value="contacts"
+                className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                data-testid="tab-contacts"
+              >
+                <Mail className="h-4 w-4 mr-2" />
+                Contact Forms
+              </TabsTrigger>
+            </TabsList>
           </nav>
         </div>
 
-        {/* Content area handled by Tabs */}
-        <div className="flex-1" />
-      </div>
+        {/* Main Content Area */}
+        <div className="flex-1 bg-muted/30">
+          <TabsContent value="dashboard" className="mt-0">
+            <Dashboard />
+          </TabsContent>
+          <TabsContent value="blog" className="mt-0">
+            <BlogManager />
+          </TabsContent>
+          <TabsContent value="testimonials" className="mt-0">
+            <TestimonialManager />
+          </TabsContent>
+          <TabsContent value="packages" className="mt-0">
+            <ServicePackageManager />
+          </TabsContent>
+          <TabsContent value="payments" className="mt-0">
+            <PaymentManager />
+          </TabsContent>
+          <TabsContent value="analytics" className="mt-0">
+            <AnalyticsDashboard />
+          </TabsContent>
+          <TabsContent value="contacts" className="mt-0">
+            <ContactManager />
+          </TabsContent>
+        </div>
+      </Tabs>
     </div>
   );
 }
