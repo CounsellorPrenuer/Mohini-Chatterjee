@@ -131,7 +131,6 @@ export default function PaymentDialog({ isOpen, onClose, selectedPackage }: Paym
             });
 
             form.reset();
-            onClose();
           } catch (error) {
             toast({
               title: "Payment Verification Failed",
@@ -150,6 +149,10 @@ export default function PaymentDialog({ isOpen, onClose, selectedPackage }: Paym
           },
         },
       };
+
+      // Close the modal before opening Razorpay
+      form.reset();
+      onClose();
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
