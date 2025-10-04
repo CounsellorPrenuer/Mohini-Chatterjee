@@ -28,7 +28,7 @@ import {
   type InsertEvent
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, gte, count, sql } from "drizzle-orm";
+import { eq, desc, gte, count, sql, isNull, and } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -222,12 +222,17 @@ export class DatabaseStorage implements IStorage {
 
   // Service packages
   async getAllServicePackages(): Promise<ServicePackage[]> {
-    return await db.select().from(servicePackages).orderBy(desc(servicePackages.createdAt));
+    return await db.select().from(servicePackages)
+      .where(isNull(servicePackages.deletedAt))
+      .orderBy(desc(servicePackages.createdAt));
   }
 
   async getActiveServicePackages(): Promise<ServicePackage[]> {
     return await db.select().from(servicePackages)
-      .where(eq(servicePackages.isActive, true))
+      .where(and(
+        eq(servicePackages.isActive, true),
+        isNull(servicePackages.deletedAt)
+      ))
       .orderBy(desc(servicePackages.createdAt));
   }
 
@@ -254,8 +259,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async deleteServicePackage(id: string): Promise<boolean> {
-    const result = await db.delete(servicePackages).where(eq(servicePackages.id, id));
-    return (result.rowCount ?? 0) > 0;
+    const [updated] = await db
+      .update(servicePackages)
+      .set({ deletedAt: new Date() })
+      .where(eq(servicePackages.id, id))
+      .returning();
+    return !!updated;
   }
 
   // Payments

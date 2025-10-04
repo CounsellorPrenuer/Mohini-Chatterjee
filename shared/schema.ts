@@ -51,6 +51,7 @@ export const servicePackages = pgTable("service_packages", {
   features: text("features").array().notNull().default([]), // Array of features
   category: text("category").notNull(), // career-counseling, workshops, assessments, etc.
   isActive: boolean("is_active").notNull().default(true),
+  deletedAt: timestamp("deleted_at"), // Soft delete timestamp
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -153,6 +154,7 @@ export const insertContactSchema = createInsertSchema(contacts).omit({
 
 export const insertServicePackageSchema = createInsertSchema(servicePackages).omit({
   id: true,
+  deletedAt: true,
   createdAt: true,
   updatedAt: true,
 });
