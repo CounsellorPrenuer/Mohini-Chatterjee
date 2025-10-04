@@ -10,7 +10,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="pt-16 gradient-bg min-h-screen flex items-center relative overflow-hidden beam-bg">
+    <section id="home" className="pt-16 gradient-bg py-12 lg:py-16 flex items-center relative overflow-hidden beam-bg">
       <div className="absolute inset-0 bg-black/10"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -44,7 +44,7 @@ Explore Our Services
           </div>
           <div className="relative animate-fadeInUp-delay-2 order-first lg:order-last mb-8 lg:mb-0">
             {/* Aakaar Shape Animation - Central Element */}
-            <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto interactive-hover">
+            <div className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 mx-auto interactive-hover">
               {/* Main Aakaar Shape */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-sm border border-white/30 animate-float">
                 <div className="absolute inset-8 rounded-full bg-gradient-to-tr from-accent/30 to-secondary/30 backdrop-blur-sm">
