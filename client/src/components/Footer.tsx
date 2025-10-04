@@ -74,7 +74,7 @@ export default function Footer() {
                   <li key={linkIndex}>
                     <button
                       onClick={() => scrollToSection(link.href)}
-                      className="hover:text-white transition-colors text-left"
+                      className="transition-colors text-left"
                       data-testid={`footer-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       {link.name}

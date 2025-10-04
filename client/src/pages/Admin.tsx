@@ -166,14 +166,14 @@ export default function Admin() {
                 <CreditCard className="h-4 w-4 mr-2" />
                 Payment Tracking
               </TabsTrigger>
-              <TabsTrigger
+              {/* <TabsTrigger
                 value="analytics"
                 className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 data-testid="tab-analytics"
               >
                 <TrendingUp className="h-4 w-4 mr-2" />
                 Analytics
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger
                 value="contacts"
                 className="w-full justify-start px-3 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"

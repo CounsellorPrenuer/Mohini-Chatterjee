@@ -261,11 +261,10 @@ export default function ServicePackageManager() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="career-counseling">Career Counseling</SelectItem>
-                            <SelectItem value="workshops">Workshops</SelectItem>
-                            <SelectItem value="assessments">Assessments</SelectItem>
-                            <SelectItem value="consultation">Consultation</SelectItem>
-                            <SelectItem value="admission-guidance">Admission Guidance</SelectItem>
+                            <SelectItem value="8th-9th-students">8th-9th Students</SelectItem>
+                            <SelectItem value="10th-12th-students">10th-12th Students</SelectItem>
+                            <SelectItem value="college-graduates">College Graduates</SelectItem>
+                            <SelectItem value="working-professionals">Working Professionals</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

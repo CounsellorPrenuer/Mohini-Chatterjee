@@ -7,9 +7,18 @@ import { Check, Package as PackageIcon } from "lucide-react";
 import type { ServicePackage } from "@shared/schema";
 import PaymentDialog from "@/components/PaymentDialog";
 
+const categories = [
+  { value: "all", label: "All Packages" },
+  { value: "8th-9th-students", label: "8th-9th Students" },
+  { value: "10th-12th-students", label: "10th-12th Students" },
+  { value: "college-graduates", label: "College Graduates" },
+  { value: "working-professionals", label: "Working Professionals" },
+];
+
 export default function ServicePackages() {
   const [selectedPackage, setSelectedPackage] = useState<ServicePackage | null>(null);
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const { data: packages = [], isLoading } = useQuery<ServicePackage[]>({
     queryKey: ["/api/service-packages"],
@@ -19,6 +28,10 @@ export default function ServicePackages() {
     setSelectedPackage(pkg);
     setIsPaymentDialogOpen(true);
   };
+
+  const filteredPackages = selectedCategory === "all" 
+    ? packages 
+    : packages.filter(pkg => pkg.category === selectedCategory);
 
   if (isLoading) {
     return (
@@ -52,21 +65,41 @@ export default function ServicePackages() {
     <>
       <section id="service-packages" className="py-20 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-4xl font-bold gradient-text mb-6 animate-glow">Our Service Packages</h2>
             <p className="text-xl text-muted-foreground animate-slideInRight">
               Choose the perfect package tailored to your career development needs
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {packages.map((pkg, index) => (
-              <Card 
-                key={pkg.id} 
-                className="card-hover animate-fadeInUp overflow-hidden"
-                style={{ animationDelay: `${index * 0.1}s` }}
-                data-testid={`package-card-${index}`}
+          {/* Category Filter Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {categories.map((category) => (
+              <Button
+                key={category.value}
+                onClick={() => setSelectedCategory(category.value)}
+                variant={selectedCategory === category.value ? "default" : "outline"}
+                className={selectedCategory === category.value ? "gradient-bg" : ""}
+                data-testid={`filter-${category.value}`}
               >
+                {category.label}
+              </Button>
+            ))}
+          </div>
+
+          {filteredPackages.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground text-lg">No packages available in this category.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPackages.map((pkg, index) => (
+                <Card 
+                  key={pkg.id} 
+                  className="card-hover animate-fadeInUp overflow-hidden"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                  data-testid={`package-card-${index}`}
+                >
                 <div className="h-32 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-primary/30 rounded-full flex items-center justify-center mx-auto mb-2">
@@ -121,7 +154,8 @@ export default function ServicePackages() {
                 </CardContent>
               </Card>
             ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 

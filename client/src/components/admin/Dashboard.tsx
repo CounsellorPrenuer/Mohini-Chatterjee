@@ -28,13 +28,6 @@ export default function Dashboard() {
 
   const stats = [
     {
-      title: "Total Visitors",
-      value: "12,543",
-      change: "+12% from last month",
-      icon: Users,
-      color: "text-primary"
-    },
-    {
       title: "Contact Forms",
       value: contacts.length.toString(),
       change: `${contacts.filter(c => c.status === 'new').length} new this month`,
@@ -54,27 +47,6 @@ export default function Dashboard() {
       change: `${testimonials.filter(t => t.status === 'approved').length} approved`,
       icon: MessageSquare,
       color: "text-foreground"
-    }
-  ];
-
-  const recentActivity = [
-    {
-      type: "contact",
-      description: "New contact form submission",
-      time: "2 hours ago",
-      color: "bg-primary"
-    },
-    {
-      type: "blog",
-      description: "Blog post published",
-      time: "1 day ago",
-      color: "bg-secondary"
-    },
-    {
-      type: "testimonial",
-      description: "New testimonial received",
-      time: "2 days ago",
-      color: "bg-accent"
     }
   ];
 
@@ -106,65 +78,7 @@ export default function Dashboard() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5" />
-              <span>Recent Activity</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-center space-x-3">
-                  <div className={`w-2 h-2 ${activity.color} rounded-full`}></div>
-                  <span className="text-sm flex-1">{activity.description}</span>
-                  <span className="text-xs text-muted-foreground">{activity.time}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Quick Actions */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <TrendingUp className="h-5 w-5" />
-              <span>Quick Actions</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Button 
-              className="w-full justify-start" 
-              variant="default"
-              data-testid="button-create-blog"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Create New Blog Post
-            </Button>
-            <Button 
-              className="w-full justify-start" 
-              variant="secondary"
-              data-testid="button-add-testimonial"
-            >
-              <MessageSquare className="h-4 w-4 mr-2" />
-              Add Testimonial
-            </Button>
-            <Button 
-              className="w-full justify-start" 
-              variant="outline"
-              data-testid="button-export-data"
-            >
-              <FileText className="h-4 w-4 mr-2" />
-              Export Data
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-
+  
       {/* Recent Contacts */}
       {contacts.length > 0 && (
         <Card className="mt-8">
