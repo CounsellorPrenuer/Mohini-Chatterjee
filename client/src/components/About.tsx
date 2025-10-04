@@ -111,7 +111,7 @@ export default function About() {
                 <img
                   src={mohiniImage}
                   alt="Ms. Mohini Chatterjee - Founder"
-                  className="w-full max-w-xs rounded-2xl shadow-lg mx-auto"
+                  className="w-full max-w-[250px] rounded-2xl shadow-lg mx-auto"
                 />
               </div>
               <div>
