@@ -28,6 +28,13 @@ export default function Dashboard() {
 
   const stats = [
     {
+      title: "Total Visitors",
+      value: "12,543",
+      change: "+12% from last month",
+      icon: Users,
+      color: "text-primary"
+    },
+    {
       title: "Contact Forms",
       value: contacts.length.toString(),
       change: `${contacts.filter(c => c.status === 'new').length} new this month`,
@@ -100,6 +107,27 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Calendar className="h-5 w-5" />
+              <span>Recent Activity</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentActivity.map((activity, index) => (
+                <div key={index} className="flex items-center space-x-3">
+                  <div className={`w-2 h-2 ${activity.color} rounded-full`}></div>
+                  <span className="text-sm flex-1">{activity.description}</span>
+                  <span className="text-xs text-muted-foreground">{activity.time}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Quick Actions */}
         <Card>
           <CardHeader>

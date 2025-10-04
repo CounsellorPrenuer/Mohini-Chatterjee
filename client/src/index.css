@@ -1,238 +1,272 @@
-    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-    :root {
-      --background: hsl(315, 20%, 8%);
-      --foreground: hsl(0, 0%, 100%);
-      --card: hsl(315, 20%, 12%);
-      --card-foreground: hsl(0, 0%, 100%);
-      --popover: hsl(315, 25%, 12%);
-      --popover-foreground: hsl(0, 0%, 100%);
-      --primary: hsl(315, 100%, 50%);
-      --primary-foreground: hsl(0, 0%, 100%);
-      --secondary: hsl(338, 100%, 76%);
-      --secondary-foreground: hsl(338, 50%, 10%);
-      --muted: hsl(315, 20%, 15%);
-      --muted-foreground: hsl(315, 15%, 65%);
-      --accent: hsl(338, 100%, 80%);
-      --accent-foreground: hsl(338, 50%, 10%);
-      --destructive: hsl(0, 84%, 60%);
-      --destructive-foreground: hsl(0, 0%, 100%);
-      --border: hsl(315, 20%, 20%);
-      --input: hsl(315, 20%, 18%);
-      --ring: hsl(315, 100%, 70%);
-      --radius: 0.75rem;
-      /* Original font families restored */
-      --font-sans: "Inter", sans-serif;
-      --font-serif: "Merriweather", serif;
-      --font-mono: "JetBrains Mono", monospace;
+:root {
+  --background: hsl(350, 30%, 98%);
+  --foreground: hsl(350, 50%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(350, 40%, 20%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(350, 40%, 20%);
+  --primary: hsl(350, 70%, 60%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(340, 60%, 85%);
+  --secondary-foreground: hsl(350, 50%, 25%);
+  --muted: hsl(350, 25%, 96%);
+  --muted-foreground: hsl(350, 15%, 50%);
+  --accent: hsl(345, 75%, 70%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(350, 20%, 90%);
+  --input: hsl(350, 20%, 92%);
+  --ring: hsl(350, 70%, 75%);
+  --chart-1: hsl(350, 70%, 75%);
+  --chart-2: hsl(340, 60%, 80%);
+  --chart-3: hsl(345, 75%, 85%);
+  --chart-4: hsl(355, 65%, 80%);
+  --chart-5: hsl(335, 70%, 85%);
+  --sidebar: hsl(350, 25%, 97%);
+  --sidebar-foreground: hsl(350, 40%, 20%);
+  --sidebar-primary: hsl(350, 70%, 75%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(345, 75%, 80%);
+  --sidebar-accent-foreground: hsl(350, 50%, 25%);
+  --sidebar-border: hsl(350, 20%, 90%);
+  --sidebar-ring: hsl(350, 70%, 75%);
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Merriweather", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(350, 30%, 8%);
+  --foreground: hsl(350, 20%, 95%);
+  --card: hsl(350, 25%, 12%);
+  --card-foreground: hsl(350, 20%, 95%);
+  --popover: hsl(350, 25%, 12%);
+  --popover-foreground: hsl(350, 20%, 95%);
+  --primary: hsl(350, 70%, 65%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(340, 50%, 60%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --muted: hsl(350, 20%, 15%);
+  --muted-foreground: hsl(350, 15%, 65%);
+  --accent: hsl(345, 65%, 70%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(350, 20%, 20%);
+  --input: hsl(350, 20%, 18%);
+  --ring: hsl(350, 70%, 70%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(350, 70%, 80%) 0%, hsl(340, 60%, 85%) 100%);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(350, 70%, 75%) 0%, hsl(345, 75%, 80%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-2 scale-105;
+    box-shadow: 0 25px 50px rgba(243, 176, 192, 0.25);
+  }
+
+  .beam-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .beam-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(240, 171, 189, 0.4), transparent);
+    animation: beam 3s infinite;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .interactive-hover {
+    @apply transition-all duration-300 ease-in-out cursor-pointer;
+  }
+
+  .interactive-hover:hover {
+    @apply scale-105 brightness-110;
+    filter: drop-shadow(0 10px 20px rgba(243, 176, 192, 0.3));
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 4s ease-in-out infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 20s linear infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2.5s infinite;
+    background: linear-gradient(90deg, transparent 0%, rgba(240, 171, 189, 0.4) 50%, transparent 100%);
+    background-size: 200% 100%;
+  }
+
+  .stats-counter {
+    @apply text-4xl font-bold text-primary;
+  }
+}
+
+@layer utilities {
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px); 
     }
-
-    @layer base {
-      * {
-        @apply border-border;
-      }
-
-      body {
-        @apply font-sans antialiased bg-background text-foreground;
-      }
+    50% { 
+      transform: translateY(-10px); 
     }
+  }
 
-    @layer components {
-      .gradient-bg {
-        background: linear-gradient(135deg, #F900BF 0%, #FF85B3 100%);
-      }
-
-      .gradient-text {
-        background: linear-gradient(135deg, #F900BF 0%, #FF85B3 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .card-hover {
-        @apply transition-all duration-300 ease-in-out;
-      }
-
-      .card-hover:hover {
-        @apply -translate-y-2 scale-105;
-        box-shadow: 0 25px 50px rgba(249, 0, 191, 0.25);
-      }
-
-      .beam-bg {
-        position: relative;
-        overflow: hidden;
-      }
-
-      .beam-bg::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(249, 0, 191, 0.4), transparent);
-        animation: beam 3s infinite;
-        pointer-events: none;
-        will-change: transform;
-      }
-
-      .interactive-hover {
-        @apply transition-all duration-300 ease-in-out cursor-pointer;
-      }
-
-      .interactive-hover:hover {
-        @apply scale-105 brightness-110;
-        filter: drop-shadow(0 10px 20px rgba(249, 0, 191, 0.3));
-      }
-
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
-      }
-
-      .animate-pulse-slow {
-        animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
-
-      .animate-bounce-slow {
-        animation: bounce-slow 4s ease-in-out infinite;
-      }
-
-      .animate-spin-slow {
-        animation: spin-slow 20s linear infinite;
-      }
-
-      .animate-glow {
-        animation: glow 2s ease-in-out infinite alternate;
-      }
-
-      .animate-shimmer {
-        animation: shimmer 2.5s infinite;
-        background: linear-gradient(90deg, transparent 0%, rgba(249, 0, 191, 0.4) 50%, transparent 100%);
-        background-size: 200% 100%;
-      }
-
-      .stats-counter {
-        @apply text-4xl font-bold text-primary;
-      }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
     }
-
-    @layer utilities {
-      @keyframes float {
-        0%, 100% { 
-          transform: translateY(0px); 
-        }
-        50% { 
-          transform: translateY(-10px); 
-        }
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes bounce-slow {
-        0%, 100% { 
-          transform: translateY(0px) scale(1); 
-        }
-        25% { 
-          transform: translateY(-8px) scale(1.05); 
-        }
-        75% { 
-          transform: translateY(4px) scale(0.95); 
-        }
-      }
-
-      @keyframes spin-slow {
-        0% { 
-          transform: rotate(0deg); 
-        }
-        100% { 
-          transform: rotate(360deg); 
-        }
-      }
-
-      .animate-fadeInUp {
-        animation: fadeInUp 0.6s ease-out;
-      }
-
-      .animate-fadeInUp-delay-1 {
-        animation: fadeInUp 0.6s ease-out 0.1s both;
-      }
-
-      .animate-fadeInUp-delay-2 {
-        animation: fadeInUp 0.6s ease-out 0.2s both;
-      }
-
-      .animate-fadeInUp-delay-3 {
-        animation: fadeInUp 0.6s ease-out 0.3s both;
-      }
-
-      @keyframes beam {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
-      }
-
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-      }
-
-      @keyframes glow {
-        0% { 
-          filter: brightness(100%) drop-shadow(0 0 5px rgba(249, 0, 191, 0.5));
-        }
-        100% { 
-          filter: brightness(120%) drop-shadow(0 0 20px rgba(249, 0, 191, 0.8));
-        }
-      }
-
-      @keyframes shimmer {
-        0% {
-          background-position: -200% 0;
-        }
-        100% {
-          background-position: 200% 0;
-        }
-      }
-
-      @keyframes slideInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      @keyframes slideInRight {
-        from {
-          opacity: 0;
-          transform: translateX(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      .animate-slideInLeft {
-        animation: slideInLeft 0.8s ease-out;
-      }
-
-      .animate-slideInRight {
-        animation: slideInRight 0.8s ease-out;
-      }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
+
+  @keyframes bounce-slow {
+    0%, 100% { 
+      transform: translateY(0px) scale(1); 
+    }
+    25% { 
+      transform: translateY(-8px) scale(1.05); 
+    }
+    75% { 
+      transform: translateY(4px) scale(0.95); 
+    }
+  }
+
+  @keyframes spin-slow {
+    0% { 
+      transform: rotate(0deg); 
+    }
+    100% { 
+      transform: rotate(360deg); 
+    }
+  }
+
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .animate-fadeInUp-delay-1 {
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+  }
+
+  .animate-fadeInUp-delay-2 {
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+  }
+
+  .animate-fadeInUp-delay-3 {
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+  }
+
+  @keyframes beam {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes glow {
+    0% { 
+      filter: brightness(100%) drop-shadow(0 0 5px rgba(243, 176, 192, 0.5));
+    }
+    100% { 
+      filter: brightness(120%) drop-shadow(0 0 20px rgba(243, 176, 192, 0.8));
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slideInLeft {
+    animation: slideInLeft 0.8s ease-out;
+  }
+
+  .animate-slideInRight {
+    animation: slideInRight 0.8s ease-out;
+  }
+}
