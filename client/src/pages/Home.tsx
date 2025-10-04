@@ -16,7 +16,7 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
-        <Statistics />
+        {/* <Statistics /> */}
         <About />
         <Method />
         <Services />

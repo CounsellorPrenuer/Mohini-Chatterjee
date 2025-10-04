@@ -49,11 +49,11 @@ export default function About() {
             {/* Key Statistics */}
             <div className="grid grid-cols-2 gap-3 md:gap-4">
               <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 md:p-6 text-center card-hover beam-bg">
-                <div className="text-2xl md:text-3xl font-bold gradient-text mb-2 animate-glow">10+</div>
+                <div className="text-2xl md:text-3xl font-bold gradient-text mb-2 animate-glow">15+</div>
                 <p className="text-xs md:text-sm text-muted-foreground">Years of Experience</p>
               </div>
               <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl p-4 md:p-6 text-center card-hover beam-bg">
-                <div className="text-2xl md:text-3xl font-bold gradient-text mb-2 animate-glow">1000+</div>
+                <div className="text-2xl md:text-3xl font-bold gradient-text mb-2 animate-glow">7000+</div>
                 <p className="text-xs md:text-sm text-muted-foreground">Students Guided</p>
               </div>
             </div>
