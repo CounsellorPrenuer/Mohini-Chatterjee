@@ -5,25 +5,25 @@
 @tailwind utilities;
 
 :root {
-  /* Purple background with pink accents #974EC3, #F900BF, #FF85B3 */
-  --background: hsl(277, 50%, 54%); /* #974EC3 - Purple background */
-  --foreground: hsl(0, 0%, 100%); /* White text on purple background */
-  --card: hsl(277, 50%, 60%); /* Slightly lighter purple for cards */
-  --card-foreground: hsl(0, 0%, 100%); /* White text on cards */
-  --popover: hsl(277, 50%, 60%);
-  --popover-foreground: hsl(0, 0%, 100%);
+  /* Classy pink theme with #F900BF and #FF85B3 */
+  --background: hsl(0, 0%, 100%); /* Pure white background */
+  --foreground: hsl(316, 100%, 35%); /* Dark pink for body text */
+  --card: hsl(0, 0%, 100%); /* White card background */
+  --card-foreground: hsl(316, 100%, 35%); /* Dark pink text on cards */
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(316, 100%, 35%);
   --primary: hsl(316, 100%, 49%); /* #F900BF - Main brand color */
   --primary-foreground: hsl(0, 0%, 100%); /* White text on primary */
   --secondary: hsl(337, 100%, 76%); /* #FF85B3 - Secondary brand color */
   --secondary-foreground: hsl(0, 0%, 100%); /* White text on secondary */
-  --muted: hsl(277, 40%, 65%);
-  --muted-foreground: hsl(0, 0%, 90%); /* Light text for muted elements */
+  --muted: hsl(316, 30%, 95%);
+  --muted-foreground: hsl(316, 40%, 45%); /* Medium pink for muted text */
   --accent: hsl(337, 100%, 76%); /* #FF85B3 */
   --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 70%, 50%);
   --destructive-foreground: hsl(0, 0%, 100%);
-  --border: hsl(277, 30%, 70%);
-  --input: hsl(277, 40%, 65%);
+  --border: hsl(316, 30%, 90%);
+  --input: hsl(316, 20%, 96%);
   --ring: hsl(316, 100%, 49%);
   --radius: 0.75rem;
   --font-sans: "Inter", sans-serif;
