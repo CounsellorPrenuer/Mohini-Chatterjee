@@ -111,19 +111,8 @@ export default function About() {
                 <img
                   src={mohiniImage}
                   alt="Ms. Mohini Chatterjee - Founder"
-                  className="w-full h-auto object-cover mb-4"
+                  className="w-full h-auto object-cover"
                 />
-                <div className="space-y-2 px-4 lg:px-0">
-                  {specializations.map((spec, index) => {
-                    const IconComponent = spec.icon;
-                    return (
-                      <div key={index} className="flex items-center space-x-2">
-                        <IconComponent className="w-4 h-4 text-primary flex-shrink-0" />
-                        <span className="text-sm font-medium">{spec.text}</span>
-                      </div>
-                    );
-                  })}
-                </div>
               </div>
               <div className="p-6 lg:py-8 lg:pr-8">
                 <blockquote className="text-xl md:text-2xl font-medium gradient-text mb-4">
@@ -143,6 +132,17 @@ export default function About() {
                     <h4 className="font-semibold text-primary">Experience:</h4>
                     <p className="text-muted-foreground text-sm md:text-base">15+ years in counselling, training, and leadership development</p>
                   </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {specializations.map((spec, index) => {
+                    const IconComponent = spec.icon;
+                    return (
+                      <div key={index} className="flex items-center space-x-2">
+                        <IconComponent className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="text-sm font-medium">{spec.text}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
