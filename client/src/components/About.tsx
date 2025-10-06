@@ -106,12 +106,12 @@ export default function About() {
         {/* About Ms. Mohini Chatterjee */}
         <Card className="overflow-hidden shadow-lg animate-fadeInUp-delay-2">
           <CardContent className="p-0">
-            <div className="grid grid-cols-1 lg:grid-cols-[auto,1fr] gap-6 lg:gap-8 items-start">
-              <div className="lg:w-64">
+            <div className="grid grid-cols-1 lg:grid-cols-[auto,1fr] gap-6 lg:gap-8 items-center">
+              <div className="lg:w-64 flex items-center justify-center">
                 <img
                   src={mohiniImage}
                   alt="Ms. Mohini Chatterjee - Founder"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover rounded-2xl shadow-lg mx-auto"
                 />
               </div>
               <div className="p-6 lg:py-8 lg:pr-8">
