@@ -1,5 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Compass, Users, GraduationCap, Building } from "lucide-react";
+import { 
+  Compass, Users, GraduationCap, Building, // Existing icons
+  BookOpenText, School, Briefcase, UsersRound, Heart // New icons for 'Who We Serve'
+} from "lucide-react";
 
 export default function Services() {
   const services = [
@@ -31,7 +34,7 @@ export default function Services() {
       items: [
         "Higher education guidance",
         "Stream selection & course mapping",
-        "SOP & interview preparation",
+        "Interview preparation",
         "Mentorship until admission"
       ],
       gradient: "bg-accent/20"
@@ -47,6 +50,14 @@ export default function Services() {
       ],
       gradient: "bg-gradient-to-r from-primary/20 to-secondary/20"
     }
+  ];
+
+  const audiences = [
+    { icon: BookOpenText, title: "Students", desc: "Stream & course selection, academic success strategies" },
+    { icon: Heart, title: "Parents", desc: "Empowering you to guide children's education & careers" },
+    { icon: School, title: "Schools & Colleges", desc: "Seminars, workshops, career readiness programs" },
+    { icon: Building, title: "Corporates", desc: "Employee wellbeing, leadership, and career growth sessions" },
+    { icon: Briefcase, title: "Professionals", desc: "Career pivots, leadership coaching, and personal branding" }
   ];
 
   return (
@@ -93,26 +104,25 @@ export default function Services() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {[
-              { emoji: "🎯", title: "Students", desc: "Stream & course selection, academic success strategies" },
-              { emoji: "👨‍👩‍👧", title: "Parents", desc: "Empowering you to guide children's education & careers" },
-              { emoji: "🏫", title: "Schools & Colleges", desc: "Seminars, workshops, career readiness programs" },
-              { emoji: "🏢", title: "Corporates", desc: "Employee wellbeing, leadership, and career growth sessions" },
-              { emoji: "💼", title: "Professionals", desc: "Career pivots, leadership coaching, and personal branding" }
-            ].map((audience, index) => (
-              <Card 
-                key={index} 
-                className="text-center p-6 card-hover animate-fadeInUp" 
-                style={{ animationDelay: `${(index + 4) * 0.1}s` }}
-                data-testid={`audience-card-${index}`}
-              >
-                <CardContent className="p-0">
-                  <div className="text-4xl mb-4">{audience.emoji}</div>
-                  <h4 className="font-bold mb-2">{audience.title}</h4>
-                  <p className="text-sm text-muted-foreground">{audience.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
+            {audiences.map((audience, index) => {
+              const AudienceIconComponent = audience.icon;
+              return (
+                <Card 
+                  key={index} 
+                  className="text-center p-6 card-hover animate-fadeInUp" 
+                  style={{ animationDelay: `${(index + services.length) * 0.1}s` }} // Adjusted delay
+                  data-testid={`audience-card-${index}`}
+                >
+                  <CardContent className="p-0">
+                    <div className="text-4xl mb-4 flex justify-center"> {/* Added flex and justify-center for icon centering */}
+                      <AudienceIconComponent className="h-10 w-10 text-primary" /> {/* Adjusted icon size and color */}
+                    </div>
+                    <h4 className="font-bold mb-2">{audience.title}</h4>
+                    <p className="text-sm text-muted-foreground">{audience.desc}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </div>

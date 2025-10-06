@@ -48,7 +48,7 @@ export default function Testimonials() {
       id: "2",
       name: "Rahul Mehta",
       role: "Engineering Graduate",
-      content: "I had finished my degree but wasn't sure about my next step. Ms. Mohini helped me identify my strengths and guided me toward higher studies abroad. The SOP and admission guidance were spot-on.",
+      content: "I had finished my degree but wasn't sure about my next step. Ms. Mohini helped me identify my strengths and guided me toward higher studies abroad. The admission guidance were spot-on.",
       rating: 5,
       imageUrl: null,
       status: "approved",
