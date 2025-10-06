@@ -8,6 +8,12 @@ Aakaar is a comprehensive career consulting website built for Ms. Mohini Chatter
 
 Preferred communication style: Simple, everyday language.
 
+### Design Preferences
+- **Color Scheme**: Classy and soothing pink tones (soft rose, dusty pink, deep mauve)
+- **Design Style**: Unique, simple, and non-flashy - elegance over animation
+- **Typography**: Playfair Display (serif) for headings, Inter for body text
+- **Visual Approach**: Minimalist, professional, and attractive without excessive effects
+
 ## System Architecture
 
 ### Frontend Architecture
@@ -49,8 +55,9 @@ Preferred communication style: Simple, everyday language.
 - **Admin Dashboard**: Comprehensive admin interface for content and inquiry management
 
 ### Design System
-- **Color Palette**: Pink and purple gradients with neutral base colors for professional appearance
-- **Typography**: Inter for body text and Merriweather for headings to balance readability and elegance
+- **Color Palette**: Classy and soothing pink tones (Soft Rose 340 45% 88%, Dusty Pink 340 35% 75%, Deep Mauve 340 25% 45%, Charcoal 220 10% 25%)
+- **Typography**: Playfair Display (serif) for headings, Inter (sans-serif) for body text
 - **Responsive Design**: Mobile-first approach with Tailwind's responsive utilities
-- **Animation**: CSS animations and transitions for smooth user interactions
+- **Animation**: Simple, subtle transitions only - no flashy effects (fadeIn, slideIn for page loads)
 - **Accessibility**: ARIA labels and semantic HTML structure throughout the application
+- **Design Philosophy**: Elegant minimalism - attractive through simplicity, not complexity
