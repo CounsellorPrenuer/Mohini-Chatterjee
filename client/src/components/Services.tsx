@@ -5,7 +5,7 @@ export default function Services() {
   const services = [
     {
       icon: Compass,
-      title: "📘 Career Guidance",
+      title: "Career Guidance",
       items: [
         "Career assessments using psychometric tools",
         "Personalized counselling sessions",
@@ -16,7 +16,7 @@ export default function Services() {
     },
     {
       icon: Users,
-      title: "🎤 Workshops & Seminars",
+      title: "Workshops & Seminars",
       items: [
         "Career awareness sessions",
         "Corporate wellbeing workshops",
@@ -27,7 +27,7 @@ export default function Services() {
     },
     {
       icon: GraduationCap,
-      title: "🎓 Admission Guidance",
+      title: "Admission Guidance",
       items: [
         "Higher education guidance",
         "Stream selection & course mapping",
@@ -38,7 +38,7 @@ export default function Services() {
     },
     {
       icon: Building,
-      title: "🌍 Corporate Solutions",
+      title: "Corporate Solutions",
       items: [
         "Employee engagement programs",
         "Leadership development training",

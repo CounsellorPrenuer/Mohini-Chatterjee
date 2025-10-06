@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, Target, Brain, HandHeart, Star, GraduationCap, School, Users, Heart } from "lucide-react";
-import mohiniImage from "@assets/WhatsApp Image 2024-12-12 at 10.53.11 PM(1)(1) - Mohini Chatterjee_1758871553313.png";
+import mohiniImage from "@assets/image_1759301059339.png";
 
 export default function About() {
   const missionPoints = [
@@ -18,16 +18,16 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-16 md:py-20 bg-muted/30 beam-bg">
+    <section id="about" className="py-12 md:py-14 bg-muted/30 beam-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-4 md:mb-6 animate-glow">About Aakaar – Who We Are</h2>
+        <div className="text-center mb-10 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-4 animate-glow">About Aakaar – Who We Are</h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-slideInLeft">
             At Aakaar, we believe every individual has a unique shape — a potential waiting to unfold.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16 md:mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center mb-12 md:mb-14">
           <div className="animate-fadeInUp">
             <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 animate-glow">Our Mission</h3>
             <p className="text-base md:text-lg text-muted-foreground mb-4 md:mb-6">
@@ -104,41 +104,41 @@ export default function About() {
         </div>
 
         {/* About Ms. Mohini Chatterjee */}
-        <Card className="p-8 md:p-12 shadow-lg animate-fadeInUp-delay-2">
+        <Card className="overflow-hidden shadow-lg animate-fadeInUp-delay-2">
           <CardContent className="p-0">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
+            <div className="grid grid-cols-1 lg:grid-cols-[auto,1fr] gap-6 lg:gap-8 items-start">
+              <div className="lg:w-64">
                 <img
                   src={mohiniImage}
                   alt="Ms. Mohini Chatterjee - Founder"
-                  className="w-full max-w-[250px] rounded-2xl shadow-lg mx-auto"
+                  className="w-full h-auto object-cover"
                 />
               </div>
-              <div>
-                <blockquote className="text-2xl font-medium gradient-text mb-6">
+              <div className="p-6 lg:py-8 lg:pr-8">
+                <blockquote className="text-xl md:text-2xl font-medium gradient-text mb-4">
                   "Helping individuals and organizations find clarity, purpose, and success has been my life's work."
                 </blockquote>
-                <h3 className="text-3xl font-bold mb-6">Ms. Mohini Chatterjee</h3>
-                <div className="space-y-4 mb-8">
+                <h3 className="text-2xl md:text-3xl font-bold mb-5">Ms. Mohini Chatterjee</h3>
+                <div className="space-y-3 mb-6">
                   <div>
                     <h4 className="font-semibold text-primary">Educational Background:</h4>
-                    <p className="text-muted-foreground">Clinical Psychology + Human Resource Development</p>
+                    <p className="text-muted-foreground text-sm md:text-base">Clinical Psychology + Human Resource Development</p>
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Professional Role:</h4>
-                    <p className="text-muted-foreground">Psychological Consultant | Career Coach | Mentor | Speaker</p>
+                    <p className="text-muted-foreground text-sm md:text-base">Psychological Consultant | Career Coach | Mentor | Speaker</p>
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Experience:</h4>
-                    <p className="text-muted-foreground">10+ years in counselling, training, and leadership development</p>
+                    <p className="text-muted-foreground text-sm md:text-base">15+ years in counselling, training, and leadership development</p>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {specializations.map((spec, index) => {
                     const IconComponent = spec.icon;
                     return (
                       <div key={index} className="flex items-center space-x-2">
-                        <IconComponent className="w-4 h-4 text-primary" />
+                        <IconComponent className="w-4 h-4 text-primary flex-shrink-0" />
                         <span className="text-sm font-medium">{spec.text}</span>
                       </div>
                     );
