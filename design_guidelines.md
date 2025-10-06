@@ -8,20 +8,22 @@
 ### A. Color Palette
 
 **Primary Colors:**
-- Soft Rose: 340 45% 88% (backgrounds, subtle accents)
-- Dusty Pink: 340 35% 75% (secondary buttons, highlights)
-- Deep Mauve: 340 25% 45% (headings, primary text on light backgrounds)
-- Charcoal: 220 10% 25% (body text, professional contrast)
+- Hot Pink: #F900BF / 316 100% 49% (primary brand color, buttons, CTAs)
+- Light Pink: #FF85B3 / 337 100% 76% (secondary highlights, accents)
 
 **Neutrals:**
-- Warm White: 340 20% 98% (page background)
-- Light Blush: 340 30% 95% (card backgrounds)
-- Medium Gray: 220 5% 60% (supporting text)
+- Pure White: 0 0% 100% (page and card backgrounds)
+- Dark Pink: 316 100% 35% (body text on white backgrounds)
+- Medium Pink: 316 40% 45% (secondary/muted text)
+
+**Text Rules:**
+- On pink backgrounds (#F900BF or #FF85B3): Always use white text (#FFFFFF)
+- On white backgrounds: Use dark pink for readable body text
 
 **Dark Mode:**
-- Deep Plum: 340 20% 15% (background)
-- Muted Rose: 340 30% 65% (accents)
-- Soft White: 340 10% 95% (text)
+- Dark Background: 316 40% 12% (deep pink background)
+- White Text: 0 0% 100% (primary text in dark mode)
+- Pink Accents: Same hot pink and light pink as light mode
 
 ### B. Typography
 
