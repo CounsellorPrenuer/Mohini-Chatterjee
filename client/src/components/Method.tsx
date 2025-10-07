@@ -27,7 +27,7 @@ export default function Method() {
   ];
 
   return (
-    <section className="py-20 bg-card">
+    <section className="py-8 md:py-10 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold gradient-text mb-6">Our Approach – The Aakaar Method</h2>

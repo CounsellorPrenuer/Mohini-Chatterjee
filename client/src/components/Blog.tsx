@@ -93,7 +93,7 @@ export default function Blog() {
 
   if (isLoading) {
     return (
-      <section id="blog" className="py-16 md:py-20 bg-muted/30 beam-bg">
+      <section id="blog" className="py-8 md:py-10 bg-muted/30 beam-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-4 md:mb-6 animate-glow">Latest from Our Blog</h2>
@@ -118,7 +118,7 @@ export default function Blog() {
 
   return (
     <>
-      <section id="blog" className="py-16 md:py-20 bg-muted/30 beam-bg">
+      <section id="blog" className="py-8 md:py-10 bg-muted/30 beam-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold gradient-text mb-4 md:mb-6 animate-glow">Latest from Our Blog</h2>

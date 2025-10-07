@@ -23,7 +23,7 @@ function Statistic({ end, label, suffix = "" }: StatisticProps) {
 
 export default function Statistics() {
   return (
-    <section className="py-16 bg-card">
+    <section className="py-8 md:py-10 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <Statistic end={10} label="+ Years of Expertise" />

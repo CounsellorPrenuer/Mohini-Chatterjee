@@ -35,7 +35,7 @@ export default function ServicePackages() {
 
   if (isLoading) {
     return (
-      <section id="service-packages" className="py-20 bg-card">
+      <section id="service-packages" className="py-8 md:py-10 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold gradient-text mb-6">Our Service Packages</h2>
@@ -63,7 +63,7 @@ export default function ServicePackages() {
 
   return (
     <>
-      <section id="service-packages" className="py-20 bg-card">
+      <section id="service-packages" className="py-8 md:py-10 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold gradient-text mb-6 animate-glow">Our Service Packages</h2>
