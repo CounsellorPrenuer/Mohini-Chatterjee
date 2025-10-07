@@ -17,7 +17,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-card/95 backdrop-blur-sm border-b border-border beam-bg">
+    <nav className="fixed top-0 w-full z-50 glass border-b border-white/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-24"> {/* Adjusted height here */}
           {/* Logo */}
@@ -33,42 +33,42 @@ export default function Navigation() {
           <div className="hidden md:flex space-x-6 lg:space-x-8">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
+              className="nav-link text-foreground hover:text-primary font-medium"
               data-testid="nav-home"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection("about")}
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
+              className="nav-link text-foreground hover:text-primary font-medium"
               data-testid="nav-about"
             >
               About
             </button>
             <button
               onClick={() => scrollToSection("services")}
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
+              className="nav-link text-foreground hover:text-primary font-medium"
               data-testid="nav-services"
             >
               Services
             </button>
             <button
               onClick={() => scrollToSection("testimonials")}
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
+              className="nav-link text-foreground hover:text-primary font-medium"
               data-testid="nav-testimonials"
             >
               Testimonials
             </button>
             <button
               onClick={() => scrollToSection("blog")}
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
+              className="nav-link text-foreground hover:text-primary font-medium"
               data-testid="nav-blog"
             >
               Blog
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 interactive-hover relative overflow-hidden"
+              className="nav-link text-foreground hover:text-primary font-medium"
               data-testid="nav-contact"
             >
               Contact
@@ -79,7 +79,7 @@ export default function Navigation() {
           <div className="flex items-center space-x-4">
             <Button
               onClick={() => scrollToSection("contact")}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 button-glow"
               data-testid="button-book-call"
             >
               Book Free Call
