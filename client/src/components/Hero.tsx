@@ -18,7 +18,7 @@ export default function Hero() {
             {/* Decreased text sizes here */}
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight animate-glow">
               Redefining Career Journeys with{" "}
-              <span className="text-accent-foreground animate-shimmer">Psychology, Purpose & Clarity</span>
+              <span className="text-accent animate-shimmer">Psychology, Purpose & Clarity</span>
             </h1>
             {/* Decreased text sizes here */}
             <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-8 text-white/90 leading-relaxed">
@@ -28,7 +28,7 @@ export default function Hero() {
               {/* Decreased button size here */}
               <Button
                 onClick={() => scrollToSection("contact")}
-                className="w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold animate-glow"
+                className="w-full sm:w-auto bg-accent text-white hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold animate-glow"
                 data-testid="button-discovery-call"
               >
                 Book a Free Discovery Call
@@ -37,7 +37,7 @@ export default function Hero() {
               <Button
                 variant="secondary"
                 onClick={() => scrollToSection("services")}
-                className="w-full sm:w-auto bg-card text-foreground hover:bg-card/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold interactive-hover"
+                className="w-full sm:w-auto bg-white/90 text-primary hover:bg-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold interactive-hover"
                 data-testid="button-explore-services"
               >
                 Explore Our Services
