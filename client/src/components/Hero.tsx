@@ -1,7 +1,29 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Brain, Target, TrendingUp, Users, Lightbulb, Star, Compass, Heart, Zap, ArrowRight } from "lucide-react";
 
 export default function Hero() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const hero = document.getElementById('home');
+      if (hero) {
+        const rect = hero.getBoundingClientRect();
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+      }
+    };
+
+    const hero = document.getElementById('home');
+    if (hero) {
+      hero.addEventListener('mousemove', handleMouseMove);
+      return () => hero.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -10,8 +32,21 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="gradient-bg flex items-center relative overflow-hidden beam-bg mt-24 min-h-[calc(100vh-6rem)]">
+    <section id="home" className="gradient-bg flex items-center relative overflow-hidden mt-24 min-h-[calc(100vh-6rem)]">
       <div className="absolute inset-0 bg-black/10"></div>
+      {/* Mouse Follow Glow Effect */}
+      <div 
+        className="absolute pointer-events-none transition-opacity duration-300 opacity-60"
+        style={{
+          left: `${mousePosition.x}px`,
+          top: `${mousePosition.y}px`,
+          width: '400px',
+          height: '400px',
+          transform: 'translate(-50%, -50%)',
+          background: 'radial-gradient(circle, rgba(255,133,179,0.4) 0%, rgba(249,0,191,0.2) 30%, transparent 70%)',
+          filter: 'blur(40px)',
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="text-white animate-fadeInUp">
@@ -28,7 +63,7 @@ export default function Hero() {
               {/* Decreased button size here */}
               <Button
                 onClick={() => scrollToSection("contact")}
-                className="w-full sm:w-auto bg-accent text-primary hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold animate-glow"
+                className="w-full sm:w-auto bg-accent text-white hover:bg-accent/90 button-glow font-semibold"
                 data-testid="button-discovery-call"
               >
                 Book a Free Discovery Call
@@ -37,7 +72,7 @@ export default function Hero() {
               <Button
                 variant="secondary"
                 onClick={() => scrollToSection("services")}
-                className="w-full sm:w-auto bg-white/90 text-primary hover:bg-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold interactive-hover"
+                className="w-full sm:w-auto bg-white/90 text-primary hover:bg-white button-glow font-semibold"
                 data-testid="button-explore-services"
               >
                 Explore Our Services
