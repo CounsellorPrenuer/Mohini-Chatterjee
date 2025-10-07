@@ -5,26 +5,26 @@
 @tailwind utilities;
 
 :root {
-  /* New Theme: Baby Pink, Lavender, and Grey */
-  --background: hsl(340, 100%, 97%);      /* Baby Pink */
-  --foreground: hsl(240, 10%, 3.9%);     /* Near Black */
+  /* Pink Theme: #F900BF (Hot Pink) and #FF85B3 (Light Pink) */
+  --background: hsl(337, 100%, 95%);      /* Very Light Pink Background */
+  --foreground: hsl(0, 0%, 10%);          /* Black */
   --card: hsl(0, 0%, 100%);               /* White */
-  --card-foreground: hsl(240, 10%, 3.9%); /* Near Black */
+  --card-foreground: hsl(0, 0%, 10%);     /* Black */
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(240, 10%, 3.9%);
-  --primary: hsl(260, 60%, 65%);          /* Lavender */
+  --popover-foreground: hsl(0, 0%, 10%);
+  --primary: hsl(328, 100%, 49%);         /* Hot Pink #F900BF */
   --primary-foreground: hsl(0, 0%, 100%); /* White */
-  --secondary: hsl(260, 70%, 90%);        /* Lighter Lavender */
-  --secondary-foreground: hsl(260, 20%, 25%); /* Dark Lavender text */
-  --muted: hsl(240, 5%, 96.1%);           /* Light Grey */
-  --muted-foreground: hsl(240, 3.8%, 46.1%); /* Medium Grey */
-  --accent: hsl(240, 4.8%, 95.9%);        /* Light Grey Accent */
-  --accent-foreground: hsl(240, 5.9%, 10%);
+  --secondary: hsl(337, 100%, 76%);       /* Light Pink #FF85B3 */
+  --secondary-foreground: hsl(0, 0%, 100%); /* White */
+  --muted: hsl(337, 100%, 98%);           /* Ultra Light Pink */
+  --muted-foreground: hsl(0, 0%, 35%);    /* Dark Grey */
+  --accent: hsl(337, 100%, 90%);          /* Lighter Pink Accent */
+  --accent-foreground: hsl(0, 0%, 10%);   /* Black */
   --destructive: hsl(0, 84.2%, 60.2%);
   --destructive-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 5.9%, 90%);          /* Grey Border */
-  --input: hsl(240, 5.9%, 90%);           /* Grey Input */
-  --ring: hsl(260, 60%, 65%);             /* Lavender Ring */
+  --border: hsl(337, 100%, 85%);          /* Pink Border */
+  --input: hsl(337, 100%, 90%);           /* Light Pink Input */
+  --ring: hsl(328, 100%, 49%);            /* Hot Pink Ring */
   --radius: 0.75rem;
   --font-sans: "Inter", sans-serif;
   --font-serif: "Playfair Display", serif;
@@ -69,11 +69,11 @@
 
 @layer components {
   .gradient-bg {
-    background: linear-gradient(135deg, hsl(260, 60%, 65%) 0%, hsl(260, 70%, 90%) 100%);
+    background: linear-gradient(135deg, hsl(328, 100%, 49%) 0%, hsl(337, 100%, 76%) 100%);
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, hsl(260, 60%, 65%) 0%, hsl(260, 50%, 55%) 100%);
+    background: linear-gradient(135deg, hsl(328, 100%, 49%) 0%, hsl(337, 100%, 76%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -85,7 +85,7 @@
 
   .card-hover:hover {
     @apply -translate-y-1;
-    box-shadow: 0 10px 30px hsla(260, 60%, 65%, 0.2);
+    box-shadow: 0 10px 30px hsla(328, 100%, 49%, 0.2);
   }
 
   .interactive-hover {
