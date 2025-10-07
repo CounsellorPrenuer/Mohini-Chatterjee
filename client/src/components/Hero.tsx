@@ -28,7 +28,7 @@ export default function Hero() {
               {/* Decreased button size here */}
               <Button
                 onClick={() => scrollToSection("contact")}
-                className="w-full sm:w-auto bg-accent text-white hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold animate-glow"
+                className="w-full sm:w-auto bg-accent text-primary hover:bg-accent/90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-semibold animate-glow"
                 data-testid="button-discovery-call"
               >
                 Book a Free Discovery Call

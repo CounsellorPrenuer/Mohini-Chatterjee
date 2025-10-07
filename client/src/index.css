@@ -68,32 +68,119 @@
 }
 
 @layer components {
+  /* Animated Gradient Background */
   .gradient-bg {
-    background: linear-gradient(135deg, hsl(328, 100%, 49%) 0%, hsl(337, 100%, 76%) 100%);
+    background: linear-gradient(135deg, hsl(328, 100%, 49%) 0%, hsl(337, 100%, 76%) 50%, hsl(328, 100%, 49%) 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
   }
 
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Gradient Text with Animation */
   .gradient-text {
     background: linear-gradient(135deg, hsl(328, 100%, 49%) 0%, hsl(337, 100%, 76%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
   }
 
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+
+  /* Glassmorphism Effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(328, 100%, 49%, 0.1);
+    box-shadow: 0 8px 32px rgba(249, 0, 191, 0.1);
+  }
+
+  /* Enhanced Card Hover with Lift, Shadow & Glow */
   .card-hover {
-    @apply transition-all duration-300 ease-in-out;
+    @apply transition-all duration-500 ease-out;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 20px rgba(249, 0, 191, 0.1);
   }
 
   .card-hover:hover {
-    @apply -translate-y-1;
-    box-shadow: 0 10px 30px hsla(328, 100%, 49%, 0.2);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(249, 0, 191, 0.3), 0 0 40px rgba(249, 0, 191, 0.2);
   }
 
+  /* Button Glow Effect */
+  .button-glow {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(249, 0, 191, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .button-glow:hover {
+    box-shadow: 0 8px 30px rgba(249, 0, 191, 0.6), 0 0 20px rgba(249, 0, 191, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .button-glow::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .button-glow:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* Interactive Hover with Smooth Scale */
   .interactive-hover {
-    @apply transition-all duration-300 ease-in-out;
+    @apply transition-all duration-300 ease-out;
   }
 
   .interactive-hover:hover {
-    @apply scale-102;
+    @apply scale-105;
+  }
+
+  /* Navbar Hover Underline */
+  .nav-link {
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, hsl(328, 100%, 49%), hsl(337, 100%, 76%));
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
   }
 }
 
@@ -157,5 +244,84 @@
 
   .scale-102 {
     transform: scale(1.02);
+  }
+
+  /* Smooth Scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Parallax Effect */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Glow Animation */
+  @keyframes glow {
+    0%, 100% { 
+      filter: drop-shadow(0 0 20px rgba(249, 0, 191, 0.6));
+    }
+    50% { 
+      filter: drop-shadow(0 0 40px rgba(249, 0, 191, 0.9)) drop-shadow(0 0 60px rgba(255, 133, 179, 0.6));
+    }
+  }
+
+  .animate-glow {
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  /* Pulse Animation */
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+  /* Spin Slow */
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 20s linear infinite;
+  }
+
+  /* Bounce Slow */
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 3s ease-in-out infinite;
+  }
+
+  /* Fade In Variations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  /* Scale In */
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .animate-scaleIn {
+    animation: scaleIn 0.5s ease-out;
   }
 }
