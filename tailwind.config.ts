@@ -61,6 +61,10 @@ export default {
           border: "var(--sidebar-border)",
           ring: "var(--sidebar-ring)",
         },
+        peach: {
+          "300": "#ffd4b3",
+          "400": "#ffb380",
+        },
       },
       fontFamily: {
         sans: ["var(--font-sans)"],

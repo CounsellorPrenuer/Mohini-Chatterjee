@@ -19,13 +19,13 @@ export default function Navigation() {
   return (
     <nav className="fixed top-0 w-full z-50 bg-card/95 backdrop-blur-sm border-b border-border beam-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-24"> {/* Adjusted height here */}
           {/* Logo */}
           <div className="flex items-center space-x-3 interactive-hover">
             <img 
               src={aakarLogo} 
               alt="Aakaar Logo" 
-              className="w-20 h-20 sm:w-24 sm:h-24 object-contain animate-glow"
+              className="w-24 h-24 sm:w-28 sm:h-28 object-contain animate-glow"
             />
           </div>
 
@@ -84,7 +84,7 @@ export default function Navigation() {
             >
               Book Free Call
             </Button>
-            
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"

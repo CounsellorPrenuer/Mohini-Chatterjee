@@ -4,25 +4,25 @@ export default function Method() {
       number: 1,
       title: "Discover",
       description: "Psychometric assessments & self-awareness exercises",
-      color: "bg-primary",
+      color: "bg-gradient-to-br from-pink-400 to-peach-300",
     },
     {
       number: 2,
       title: "Define",
       description: "Career mapping based on interests, strengths & industry trends",
-      color: "bg-secondary",
+      color: "bg-gradient-to-br from-peach-400 to-pink-300",
     },
     {
       number: 3,
       title: "Design",
       description: "Personalized coaching plan with clear milestones",
-      color: "bg-accent",
+      color: "bg-gradient-to-br from-pink-400 to-peach-400",
     },
     {
       number: 4,
       title: "Develop",
       description: "Ongoing mentorship, workshops, and lifelong learning resources",
-      color: "bg-gradient-to-r from-primary to-secondary",
+      color: "bg-gradient-to-br from-peach-300 to-pink-400",
     },
   ];
 
