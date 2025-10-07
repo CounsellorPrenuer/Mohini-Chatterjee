@@ -65,15 +65,15 @@ export default function ServicePackages() {
     <>
       <section id="service-packages" className="py-8 md:py-10 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold gradient-text mb-6 animate-glow">Our Service Packages</h2>
-            <p className="text-xl text-muted-foreground animate-slideInRight">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold gradient-text mb-3 animate-glow">Our Service Packages</h2>
+            <p className="text-lg text-muted-foreground animate-slideInRight">
               Choose the perfect package tailored to your career development needs
             </p>
           </div>
 
           {/* Category Filter Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+          <div className="flex flex-wrap justify-center gap-2 mb-6">
             {categories.map((category) => (
               <Button
                 key={category.value}
@@ -92,7 +92,7 @@ export default function ServicePackages() {
               <p className="text-muted-foreground text-lg">No packages available in this category.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredPackages.map((pkg, index) => (
                 <Card 
                   key={pkg.id} 
@@ -100,43 +100,38 @@ export default function ServicePackages() {
                   style={{ animationDelay: `${index * 0.1}s` }}
                   data-testid={`package-card-${index}`}
                 >
-                <div className="h-32 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                <div className="h-20 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-primary/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <PackageIcon className="w-8 h-8 text-primary" />
+                    <div className="w-12 h-12 bg-primary/30 rounded-full flex items-center justify-center mx-auto">
+                      <PackageIcon className="w-6 h-6 text-primary" />
                     </div>
-                    {pkg.category && (
-                      <Badge variant="secondary" className="mt-2">
-                        {pkg.category}
-                      </Badge>
-                    )}
                   </div>
                 </div>
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold" data-testid={`package-name-${index}`}>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-xl font-bold" data-testid={`package-name-${index}`}>
                     {pkg.name}
                   </CardTitle>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-primary" data-testid={`package-price-${index}`}>
+                    <span className="text-2xl font-bold text-primary" data-testid={`package-price-${index}`}>
                       ₹{(pkg.price / 100).toLocaleString()}
                     </span>
                     {pkg.duration && (
-                      <span className="text-muted-foreground">/ {pkg.duration}</span>
+                      <span className="text-sm text-muted-foreground">/ {pkg.duration}</span>
                     )}
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground" data-testid={`package-description-${index}`}>
+                <CardContent className="space-y-3 pt-0">
+                  <p className="text-sm text-muted-foreground" data-testid={`package-description-${index}`}>
                     {pkg.description}
                   </p>
                   
                   {pkg.features && pkg.features.length > 0 && (
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-sm">What's Included:</h4>
-                      <ul className="space-y-2">
+                    <div className="space-y-1.5">
+                      <h4 className="font-semibold text-xs">What's Included:</h4>
+                      <ul className="space-y-1.5">
                         {pkg.features.map((feature, fIndex) => (
-                          <li key={fIndex} className="flex items-start gap-2 text-sm">
-                            <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <li key={fIndex} className="flex items-start gap-1.5 text-xs">
+                            <Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
                             <span>{feature}</span>
                           </li>
                         ))}
