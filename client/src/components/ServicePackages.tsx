@@ -114,35 +114,35 @@ export default function ServicePackages() {
                 </div>
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <CardTitle className="text-xl font-bold flex-1" data-testid={`package-name-${index}`}>
+                    <CardTitle className="text-xl font-bold flex-1 break-words" data-testid={`package-name-${index}`}>
                       {pkg.name}
                     </CardTitle>
-                    <Badge variant="secondary" className="shrink-0" data-testid={`package-category-${index}`}>
+                    <Badge variant="secondary" className="shrink-0 text-xs" data-testid={`package-category-${index}`}>
                       {getCategoryLabel(pkg.category)}
                     </Badge>
                   </div>
-                  <div className="flex items-baseline gap-2">
+                  <div className="flex items-baseline gap-2 flex-wrap">
                     <span className="text-2xl font-bold text-primary" data-testid={`package-price-${index}`}>
                       ₹{(pkg.price / 100).toLocaleString()}
                     </span>
                     {pkg.duration && (
-                      <span className="text-sm text-muted-foreground">/ {pkg.duration}</span>
+                      <span className="text-sm text-muted-foreground break-words">/ {pkg.duration}</span>
                     )}
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3 pt-0">
-                  <p className="text-sm text-muted-foreground" data-testid={`package-description-${index}`}>
+                  <p className="text-sm text-muted-foreground break-words" data-testid={`package-description-${index}`}>
                     {pkg.description}
                   </p>
                   
                   {pkg.features && pkg.features.length > 0 && (
                     <div className="space-y-1.5">
-                      <h4 className="font-semibold text-xs">What's Included:</h4>
+                      <h4 className="font-semibold text-xs break-words">What's Included:</h4>
                       <ul className="space-y-1.5">
                         {pkg.features.map((feature, fIndex) => (
                           <li key={fIndex} className="flex items-start gap-1.5 text-xs">
                             <Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
-                            <span>{feature}</span>
+                            <span className="break-words flex-1">{feature}</span>
                           </li>
                         ))}
                       </ul>
