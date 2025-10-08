@@ -82,8 +82,8 @@ export default function Testimonials() {
     <section id="testimonials" className="py-20 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold gradient-text mb-6">What Our Clients Say</h2>
-          <p className="text-xl text-muted-foreground">Real stories of transformation and success</p>
+          <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-6 break-words">What Our Clients Say</h2>
+          <p className="text-lg md:text-xl text-muted-foreground break-words">Real stories of transformation and success</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -96,19 +96,19 @@ export default function Testimonials() {
             >
               <CardContent className="p-8">
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold mr-3">
+                  <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold mr-3 flex-shrink-0">
                     {testimonial.name.charAt(0)}
                   </div>
-                  <div>
-                    <h4 className="font-semibold" data-testid={`testimonial-name-${index}`}>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-semibold truncate" data-testid={`testimonial-name-${index}`}>
                       {testimonial.name}
                     </h4>
-                    <p className="text-sm text-muted-foreground" data-testid={`testimonial-role-${index}`}>
+                    <p className="text-sm text-muted-foreground truncate" data-testid={`testimonial-role-${index}`}>
                       {testimonial.role}
                     </p>
                   </div>
                 </div>
-                <p className="text-muted-foreground italic text-sm mb-4" data-testid={`testimonial-content-${index}`}>
+                <p className="text-muted-foreground italic text-sm mb-4 break-words" data-testid={`testimonial-content-${index}`}>
                   "{testimonial.content}"
                 </p>
                 <div className="flex text-yellow-400">
