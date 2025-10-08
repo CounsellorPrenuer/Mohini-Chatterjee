@@ -33,6 +33,11 @@ export default function ServicePackages() {
     ? packages 
     : packages.filter(pkg => pkg.category === selectedCategory);
 
+  const getCategoryLabel = (categoryValue: string) => {
+    const category = categories.find(cat => cat.value === categoryValue);
+    return category ? category.label : categoryValue;
+  };
+
   if (isLoading) {
     return (
       <section id="service-packages" className="py-8 md:py-10 bg-card">
@@ -108,9 +113,14 @@ export default function ServicePackages() {
                   </div>
                 </div>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-xl font-bold" data-testid={`package-name-${index}`}>
-                    {pkg.name}
-                  </CardTitle>
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <CardTitle className="text-xl font-bold flex-1" data-testid={`package-name-${index}`}>
+                      {pkg.name}
+                    </CardTitle>
+                    <Badge variant="secondary" className="shrink-0" data-testid={`package-category-${index}`}>
+                      {getCategoryLabel(pkg.category)}
+                    </Badge>
+                  </div>
                   <div className="flex items-baseline gap-2">
                     <span className="text-2xl font-bold text-primary" data-testid={`package-price-${index}`}>
                       ₹{(pkg.price / 100).toLocaleString()}
