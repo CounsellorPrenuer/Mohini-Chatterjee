@@ -12,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Linkedin, Facebook, Instagram } from "lucide-react";
 import { insertContactSchema } from "@shared/schema";
 
 const contactFormSchema = insertContactSchema.extend({
@@ -135,7 +135,7 @@ export default function Contact() {
                     onClick={() => trackButtonClick('linkedin_link', { source: 'contact_page' })}
                   >
                     <span className="sr-only">LinkedIn</span>
-                    📄
+                    <Linkedin className="h-5 w-5" />
                   </a>
                 </Button>
                 <Button
@@ -145,7 +145,7 @@ export default function Contact() {
                   data-testid="link-facebook"
                   onClick={() => trackButtonClick('facebook_link', { source: 'contact_page' })}
                 >
-                  📘
+                  <Facebook className="h-5 w-5" />
                 </Button>
                 <Button
                   variant="default"
@@ -154,7 +154,7 @@ export default function Contact() {
                   data-testid="link-instagram"
                   onClick={() => trackButtonClick('instagram_link', { source: 'contact_page' })}
                 >
-                  📷
+                  <Instagram className="h-5 w-5" />
                 </Button>
               </div>
             </div>
