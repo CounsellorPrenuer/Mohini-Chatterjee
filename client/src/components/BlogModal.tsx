@@ -35,19 +35,19 @@ export default function BlogModal({ isOpen, onClose, post }: BlogModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/50" onClick={onClose}></div>
       <div className="relative bg-card rounded-2xl max-w-4xl max-h-[90vh] overflow-y-auto m-4 w-full">
-        <div className="p-8">
-          <div className="flex justify-between items-start mb-6">
-            <div>
+        <div className="p-4 sm:p-6 md:p-8">
+          <div className="flex justify-between items-start mb-6 gap-4">
+            <div className="min-w-0 flex-1">
               <Badge variant="secondary" className="mb-2">
                 {post.category}
               </Badge>
-              <h2 className="text-3xl font-bold gradient-text">
+              <h2 className="text-2xl sm:text-3xl font-bold gradient-text break-words">
                 {post.title}
               </h2>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-muted-foreground mt-2 break-words">
                 Published on {new Date(post.createdAt).toLocaleDateString()}
               </p>
             </div>
@@ -55,7 +55,7 @@ export default function BlogModal({ isOpen, onClose, post }: BlogModalProps) {
               variant="ghost" 
               size="sm"
               onClick={onClose}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground flex-shrink-0"
               data-testid="button-close-modal"
             >
               <X className="h-5 w-5" />
@@ -63,7 +63,7 @@ export default function BlogModal({ isOpen, onClose, post }: BlogModalProps) {
           </div>
           
           <div 
-            className="prose prose-lg max-w-none mb-8"
+            className="prose prose-sm sm:prose-lg max-w-none mb-8 break-words overflow-x-auto"
             dangerouslySetInnerHTML={{ __html: post.content }}
             data-testid="blog-modal-content"
           />
