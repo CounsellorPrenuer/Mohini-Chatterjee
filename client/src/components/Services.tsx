@@ -64,8 +64,8 @@ export default function Services() {
     <section id="services" className="py-8 md:py-10 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold gradient-text mb-6">Services We Offer</h2>
-          <p className="text-xl text-muted-foreground">Comprehensive solutions for all your career development needs</p>
+          <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-6 break-words">Services We Offer</h2>
+          <p className="text-lg md:text-xl text-muted-foreground break-words">Comprehensive solutions for all your career development needs</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -79,15 +79,15 @@ export default function Services() {
                 data-testid={`service-card-${index}`}
               >
                 <CardHeader>
-                  <div className={`w-16 h-16 ${service.gradient} rounded-full flex items-center justify-center mb-4`}>
+                  <div className={`w-16 h-16 ${service.gradient} rounded-full flex items-center justify-center mb-4 flex-shrink-0`}>
                     <IconComponent className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
+                  <CardTitle className="text-xl font-bold break-words">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 text-muted-foreground">
                     {service.items.map((item, itemIndex) => (
-                      <li key={itemIndex} className="text-sm">• {item}</li>
+                      <li key={itemIndex} className="text-sm break-words">• {item}</li>
                     ))}
                   </ul>
                 </CardContent>
@@ -99,8 +99,8 @@ export default function Services() {
         {/* Who We Serve Section */}
         <div className="mt-20">
           <div className="text-center mb-16">
-            <h3 className="text-3xl font-bold gradient-text mb-6">Who We Serve</h3>
-            <p className="text-xl text-muted-foreground">Supporting every stakeholder in the career journey</p>
+            <h3 className="text-2xl md:text-3xl font-bold gradient-text mb-6 break-words">Who We Serve</h3>
+            <p className="text-lg md:text-xl text-muted-foreground break-words">Supporting every stakeholder in the career journey</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -117,8 +117,8 @@ export default function Services() {
                     <div className="text-4xl mb-4 flex justify-center"> {/* Added flex and justify-center for icon centering */}
                       <AudienceIconComponent className="h-10 w-10 text-primary" /> {/* Adjusted icon size and color */}
                     </div>
-                    <h4 className="font-bold mb-2">{audience.title}</h4>
-                    <p className="text-sm text-muted-foreground">{audience.desc}</p>
+                    <h4 className="font-bold mb-2 break-words">{audience.title}</h4>
+                    <p className="text-sm text-muted-foreground break-words">{audience.desc}</p>
                   </CardContent>
                 </Card>
               );
