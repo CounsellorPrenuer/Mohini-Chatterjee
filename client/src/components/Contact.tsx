@@ -94,13 +94,13 @@ export default function Contact() {
     <section id="contact" className="py-8 md:py-10 bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold gradient-text mb-6">Let's Start Your Journey</h2>
-          <p className="text-xl text-muted-foreground">"Let's build your future together – one decision at a time."</p>
+          <h2 className="text-3xl md:text-4xl font-bold gradient-text mb-6 break-words">Let's Start Your Journey</h2>
+          <p className="text-lg md:text-xl text-muted-foreground break-words">"Let's build your future together – one decision at a time."</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="animate-fadeInUp">
-            <h3 className="text-2xl font-bold mb-8">Get in Touch</h3>
+            <h3 className="text-xl md:text-2xl font-bold mb-8 break-words">Get in Touch</h3>
             <div className="space-y-6 mb-8">
               {contactInfo.map((info, index) => {
                 const IconComponent = info.icon;
@@ -109,9 +109,9 @@ export default function Contact() {
                     <div className={`w-12 h-12 ${info.color} rounded-full flex items-center justify-center flex-shrink-0`}>
                       <IconComponent className="h-5 w-5 text-white" />
                     </div>
-                    <div>
-                      <h4 className="font-semibold">{info.title}</h4>
-                      <p className="text-muted-foreground">{info.value}</p>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-semibold break-words">{info.title}</h4>
+                      <p className="text-muted-foreground break-words">{info.value}</p>
                     </div>
                   </div>
                 );
