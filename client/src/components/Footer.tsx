@@ -49,9 +49,8 @@ export default function Footer() {
               <img 
                 src={aakarLogo} 
                 alt="Aakaar Logo" 
-                className="w-8 h-8 object-contain"
+                className="w-28 h-28 object-contain"
               />
-              <span className="text-xl font-bold text-white">Aakaar</span>
             </div>
             <p className="text-background/80 mb-4">Shaping Lives Through Career Clarity</p>
             <p className="text-sm text-background/60">Powered by Mentoria's Career Discovery Platform</p>

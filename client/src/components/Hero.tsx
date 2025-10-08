@@ -51,12 +51,12 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="text-white animate-fadeInUp">
             {/* Decreased text sizes here */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight animate-glow">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight animate-glow break-words">
               Redefining Career Journeys with{" "}
-              <span className="text-accent animate-shimmer">Psychology, Purpose & Clarity</span>
+              <span className="text-accent animate-shimmer break-words">Psychology, Purpose & Clarity</span>
             </h1>
             {/* Decreased text sizes here */}
-            <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-8 text-white/90 leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg mb-6 md:mb-8 text-white/90 leading-relaxed break-words">
               Guiding students, parents, professionals, schools, colleges, and corporates through career choices, personal growth, and future-proof success in a rapidly changing world.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
