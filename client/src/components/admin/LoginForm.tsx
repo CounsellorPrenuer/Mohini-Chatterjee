@@ -29,7 +29,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
         title: "Login successful",
         description: "Welcome to the admin dashboard!",
       });
-      
+
       onLoginSuccess();
     } catch (error: any) {
       toast({
@@ -76,7 +76,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
@@ -115,6 +115,12 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               {isLoading ? "Signing in..." : "Sign in"}
             </Button>
           </form>
+
+          {/* Demo Credentials Display */}
+          <div className="mt-6 pt-4 border-t text-center text-sm text-muted-foreground space-y-1">
+            <p><strong>Username:</strong> admin</p>
+            <p><strong>Password:</strong> admin123</p>
+          </div>
         </CardContent>
       </Card>
     </div>
