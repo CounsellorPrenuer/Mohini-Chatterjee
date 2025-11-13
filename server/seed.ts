@@ -4,7 +4,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
   {
     name: "Career Discovery Session",
     description: "One-on-one personalized career counseling session to explore your strengths, interests, and career options",
-    price: 2500,
+    price: 250000, // ₹2500 in paise
     duration: "90 minutes",
     features: [
       "Comprehensive aptitude and interest assessment",
@@ -19,7 +19,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
   {
     name: "Student Career Guidance Package",
     description: "Complete career planning package for students in 8th-12th grade",
-    price: 5000,
+    price: 500000, // ₹5000 in paise
     duration: "3 sessions",
     features: [
       "Subject and stream selection counseling",
@@ -35,7 +35,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
   {
     name: "College Admission Counseling",
     description: "Expert guidance for college admissions and entrance exam preparation",
-    price: 8000,
+    price: 800000, // ₹8000 in paise
     duration: "5 sessions",
     features: [
       "College selection strategy",
@@ -51,7 +51,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
   {
     name: "Professional Career Transition",
     description: "Comprehensive support for career change and professional development",
-    price: 12000,
+    price: 1200000, // ₹12000 in paise
     duration: "8 sessions",
     features: [
       "Career assessment and gap analysis",
@@ -68,7 +68,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
   {
     name: "Corporate Workshop - Team Building",
     description: "Interactive workshop for corporate teams focusing on career development and team dynamics",
-    price: 25000,
+    price: 2500000, // ₹25000 in paise
     duration: "Full day (6 hours)",
     features: [
       "Customized workshop content",
@@ -84,7 +84,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
   {
     name: "School/College Career Seminar",
     description: "Comprehensive career awareness seminar for educational institutions",
-    price: 15000,
+    price: 1500000, // ₹15000 in paise
     duration: "Half day (3 hours)",
     features: [
       "Career awareness sessions",
@@ -100,7 +100,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
   {
     name: "Parent Counseling Session",
     description: "Guidance for parents on supporting their children's educational and career decisions",
-    price: 3000,
+    price: 300000, // ₹3000 in paise
     duration: "60 minutes",
     features: [
       "Understanding child's strengths and interests",
