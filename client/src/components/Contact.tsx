@@ -85,7 +85,7 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "Location",
-      value: "India (Available online & in-person by appointment)",
+      value: "Bhopal, Madhya Pradesh (Available online & in-person by appointment)",
       color: "bg-accent"
     }
   ];
