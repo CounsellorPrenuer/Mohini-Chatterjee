@@ -41,6 +41,11 @@ Preferred communication style: Simple, everyday language.
 - **Session Management**: Express sessions with PostgreSQL session store (connect-pg-simple)
 - **Admin Access**: Basic authentication system for admin panel access
 - **Route Protection**: Server-side route protection for admin endpoints
+- **Admin Initialization**: Automatic admin user creation on first deployment when database is empty
+  - Requires ADMIN_USERNAME and ADMIN_PASSWORD environment variables
+  - Server will abort startup if these are not set and no users exist in database
+  - Credentials are securely hashed with bcrypt (12 rounds) before storage
+  - Only creates admin user once - idempotent operation
 
 ### External Dependencies
 - **Database Hosting**: Neon serverless PostgreSQL for scalable database management

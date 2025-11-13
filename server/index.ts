@@ -1,9 +1,12 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
 import MemoryStore from "memorystore";
+import bcrypt from "bcryptjs";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db } from "./db";
+import { storage } from "./storage";
+import { users } from "@shared/schema";
 
 const app = express();
 
@@ -70,8 +73,46 @@ app.use((req, res, next) => {
   next();
 });
 
+// Initialize default admin user if database is empty
+async function initializeDefaultAdmin() {
+  try {
+    // Check if any users exist
+    const existingUsers = await db.select().from(users).limit(1);
+    
+    if (existingUsers.length === 0) {
+      // Require admin credentials from environment variables
+      const adminUsername = process.env.ADMIN_USERNAME;
+      const adminPassword = process.env.ADMIN_PASSWORD;
+      
+      if (!adminUsername || !adminPassword) {
+        throw new Error(
+          "ADMIN_USERNAME and ADMIN_PASSWORD environment variables are required for initial admin account creation. " +
+          "Please set these secrets in your Replit deployment configuration."
+        );
+      }
+      
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(adminPassword, 12);
+      
+      // Create the admin user
+      await storage.createUser({
+        username: adminUsername,
+        password: hashedPassword
+      });
+      
+      log(`Default admin user created: ${adminUsername}`);
+    }
+  } catch (error) {
+    console.error("Error initializing default admin:", error);
+    throw error;
+  }
+}
+
 (async () => {
   const server = await registerRoutes(app);
+  
+  // Initialize default admin user if needed (must run after registerRoutes)
+  await initializeDefaultAdmin();
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
