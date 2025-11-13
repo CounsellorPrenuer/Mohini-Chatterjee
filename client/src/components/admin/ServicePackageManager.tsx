@@ -119,6 +119,30 @@ export default function ServicePackageManager() {
     },
   });
 
+  const seedPackages = useMutation({
+    mutationFn: async () => {
+      return await apiRequest<{ message: string; created: number; skipped: number }>(
+        "POST", 
+        "/api/admin/service-packages/seed"
+      );
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Seed Completed",
+        description: data.message,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/service-packages"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/service-packages"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to seed service packages",
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: ServicePackageFormData) => {
     // Parse features from comma-separated string
     const features = featuresInput.split(',').map(f => f.trim()).filter(f => f.length > 0);
@@ -214,7 +238,7 @@ export default function ServicePackageManager() {
       </div>
 
       {/* Add Package Button */}
-      <div className="mb-6">
+      <div className="mb-6 flex gap-4">
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => {
@@ -395,6 +419,19 @@ export default function ServicePackageManager() {
             </Form>
           </DialogContent>
         </Dialog>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            if (confirm("This will add default service packages to the database. Existing packages won't be duplicated. Continue?")) {
+              seedPackages.mutate();
+            }
+          }}
+          disabled={seedPackages.isPending}
+          data-testid="button-seed-packages"
+        >
+          <Package className="h-4 w-4 mr-2" />
+          {seedPackages.isPending ? "Seeding..." : "Seed Default Packages"}
+        </Button>
       </div>
 
       {/* Packages Table */}
