@@ -408,6 +408,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/admin/service-packages/seed", requireAuth, async (req, res) => {
+    try {
+      const result = await storage.seedServicePackages();
+      res.json({ 
+        message: `Seed completed: ${result.created} packages created, ${result.skipped} already existed`,
+        ...result
+      });
+    } catch (error) {
+      console.error("Error seeding service packages:", error);
+      res.status(500).json({ error: "Failed to seed service packages" });
+    }
+  });
+
   // Admin Payments
   app.get("/api/admin/payments", requireAuth, async (req, res) => {
     try {
