@@ -65,6 +65,7 @@ export interface IStorage {
   createServicePackage(servicePackage: InsertServicePackage): Promise<ServicePackage>;
   updateServicePackage(id: string, servicePackage: Partial<InsertServicePackage>): Promise<ServicePackage | undefined>;
   deleteServicePackage(id: string): Promise<boolean>;
+  seedServicePackages(): Promise<{ created: number; skipped: number }>;
   
   // Payments
   getAllPayments(): Promise<Payment[]>;
@@ -265,6 +266,30 @@ export class DatabaseStorage implements IStorage {
       .where(eq(servicePackages.id, id))
       .returning();
     return !!updated;
+  }
+
+  async seedServicePackages(): Promise<{ created: number; skipped: number }> {
+    const { defaultServicePackages } = await import("./seed");
+    let created = 0;
+    let skipped = 0;
+
+    for (const packageData of defaultServicePackages) {
+      // Check if a package with the same name already exists
+      const [existing] = await db
+        .select()
+        .from(servicePackages)
+        .where(eq(servicePackages.name, packageData.name))
+        .limit(1);
+
+      if (existing) {
+        skipped++;
+      } else {
+        await db.insert(servicePackages).values(packageData);
+        created++;
+      }
+    }
+
+    return { created, skipped };
   }
 
   // Payments
