@@ -13,7 +13,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
       "One-on-one consultation with expert counselor",
       "Detailed career report"
     ],
-    category: ["college_graduates", "working_professionals"],
+    category: "college-graduates",
     isActive: true
   },
   {
@@ -29,7 +29,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
       "3 follow-up sessions over 6 months",
       "Parent counseling session included"
     ],
-    category: ["8th_9th_students", "10th_12th_students"],
+    category: "10th-12th-students",
     isActive: true
   },
   {
@@ -45,7 +45,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
       "Entrance exam planning",
       "Scholarship guidance"
     ],
-    category: ["10th_12th_students", "college_graduates"],
+    category: "10th-12th-students",
     isActive: true
   },
   {
@@ -62,7 +62,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
       "Personal branding guidance",
       "3 months follow-up support"
     ],
-    category: ["working_professionals"],
+    category: "working-professionals",
     isActive: true
   },
   {
@@ -78,7 +78,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
       "Psychological wellbeing sessions",
       "Post-workshop report and recommendations"
     ],
-    category: ["corporates"],
+    category: "corporates",
     isActive: true
   },
   {
@@ -94,7 +94,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
       "Interactive activities",
       "Resource materials for participants"
     ],
-    category: ["schools_colleges"],
+    category: "schools-colleges",
     isActive: true
   },
   {
@@ -110,7 +110,7 @@ export const defaultServicePackages: InsertServicePackage[] = [
       "Managing expectations",
       "Follow-up email support"
     ],
-    category: ["parents"],
+    category: "parents",
     isActive: true
   }
 ];

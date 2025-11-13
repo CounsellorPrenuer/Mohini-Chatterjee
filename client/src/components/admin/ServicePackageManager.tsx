@@ -121,15 +121,12 @@ export default function ServicePackageManager() {
 
   const seedPackages = useMutation({
     mutationFn: async () => {
-      return await apiRequest<{ message: string; created: number; skipped: number }>(
-        "POST", 
-        "/api/admin/service-packages/seed"
-      );
+      return await apiRequest("POST", "/api/admin/service-packages/seed");
     },
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       toast({
         title: "Seed Completed",
-        description: data.message,
+        description: data.message || "Service packages seeded successfully",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/service-packages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/service-packages"] });
