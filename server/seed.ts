@@ -2,115 +2,131 @@ import { type InsertServicePackage } from "@shared/schema";
 
 export const defaultServicePackages: InsertServicePackage[] = [
   {
-    name: "Career Discovery Session",
-    description: "One-on-one personalized career counseling session to explore your strengths, interests, and career options",
-    price: 250000, // ₹2500 in paise
-    duration: "90 minutes",
+    name: "Discover",
+    description: "STANDARD",
+    price: 550000, // ₹5,500 in paise
+    duration: "",
     features: [
-      "Comprehensive aptitude and interest assessment",
-      "Personalized career recommendations",
-      "Stream and course selection guidance",
-      "One-on-one consultation with expert counselor",
-      "Detailed career report"
+      "Psychometric assessment to measure your interests",
+      "1 career counselling session with Mentoria's expert career coaches",
+      "Lifetime access to Knowledge Gateway",
+      "Invites to live webinars by industry experts"
+    ],
+    category: "8th-9th-students",
+    isActive: true
+  },
+  {
+    name: "Discover plus+",
+    description: "PREMIUM",
+    price: 1500000, // ₹15,000 in paise
+    duration: "",
+    features: [
+      "Psychometric assessments to measure your interests",
+      "personality and abilities",
+      "8 career counselling sessions (1 every year) with Mentoria's expert career coaches until graduation",
+      "Lifetime access to Knowledge Gateway",
+      "Invites to live webinars by industry experts",
+      "Customised reports after each session with education pathways",
+      "Guidance on studying abroad",
+      "CV building during internships/graduation"
+    ],
+    category: "8th-9th-students",
+    isActive: true
+  },
+  {
+    name: "Achieve Online",
+    description: "STANDARD",
+    price: 599900, // ₹5,999 in paise
+    duration: "",
+    features: [
+      "Psychometric assessment to measure your interests",
+      "personality and abilities",
+      "1 career counselling session",
+      "Lifetime access to Knowledge Gateway",
+      "Pre-recorded webinars by industry experts"
+    ],
+    category: "10th-12th-students",
+    isActive: true
+  },
+  {
+    name: "Achieve Plus+",
+    description: "STANDARD",
+    price: 1059900, // ₹10,599 in paise
+    duration: "",
+    features: [
+      "Psychometric assessment to measure your interests",
+      "personality and abilities",
+      "1 career counselling session",
+      "Lifetime access to Knowledge Gateway",
+      "Pre-recorded webinars by industry experts"
+    ],
+    category: "10th-12th-students",
+    isActive: true
+  },
+  {
+    name: "Ascend Online",
+    description: "STANDARD",
+    price: 649900, // ₹6,499 in paise
+    duration: "",
+    features: [
+      "Psychometric assessment to measure your interests",
+      "personality and abilities",
+      "1 career counselling session",
+      "Lifetime access to Knowledge Gateway",
+      "Pre-recorded webinars by industry experts"
     ],
     category: "college-graduates",
     isActive: true
   },
   {
-    name: "Student Career Guidance Package",
-    description: "Complete career planning package for students in 8th-12th grade",
-    price: 500000, // ₹5000 in paise
-    duration: "3 sessions",
+    name: "Ascend Online",
+    description: "STANDARD",
+    price: 649900, // ₹6,499 in paise
+    duration: "",
     features: [
-      "Subject and stream selection counseling",
-      "Career aptitude testing",
-      "College and course recommendations",
-      "Study plan development",
-      "3 follow-up sessions over 6 months",
-      "Parent counseling session included"
-    ],
-    category: "10th-12th-students",
-    isActive: true
-  },
-  {
-    name: "College Admission Counseling",
-    description: "Expert guidance for college admissions and entrance exam preparation",
-    price: 800000, // ₹8000 in paise
-    duration: "5 sessions",
-    features: [
-      "College selection strategy",
-      "Application review and optimization",
-      "Statement of Purpose guidance",
-      "Interview preparation",
-      "Entrance exam planning",
-      "Scholarship guidance"
-    ],
-    category: "10th-12th-students",
-    isActive: true
-  },
-  {
-    name: "Professional Career Transition",
-    description: "Comprehensive support for career change and professional development",
-    price: 1200000, // ₹12000 in paise
-    duration: "8 sessions",
-    features: [
-      "Career assessment and gap analysis",
-      "Industry transition strategy",
-      "Resume and LinkedIn optimization",
-      "Interview coaching",
-      "Networking strategies",
-      "Personal branding guidance",
-      "3 months follow-up support"
+      "Psychometric assessment to measure your interests",
+      "personality and abilities",
+      "1 career counselling session",
+      "Lifetime access to Knowledge Gateway",
+      "Pre-recorded webinars by industry experts"
     ],
     category: "working-professionals",
     isActive: true
   },
   {
-    name: "Corporate Workshop - Team Building",
-    description: "Interactive workshop for corporate teams focusing on career development and team dynamics",
-    price: 2500000, // ₹25000 in paise
-    duration: "Full day (6 hours)",
+    name: "Ascend Plus+",
+    description: "PREMIUM",
+    price: 1059900, // ₹10,599 in paise
+    duration: "",
     features: [
-      "Customized workshop content",
-      "Leadership development sessions",
-      "Team building activities",
-      "Career growth planning",
-      "Psychological wellbeing sessions",
-      "Post-workshop report and recommendations"
+      "Psychometric assessment to measure your interests",
+      "personality and abilities",
+      "3 career counselling sessions",
+      "Lifetime access to Knowledge Gateway",
+      "Attend live webinars by industry experts",
+      "Customised reports after each session with information on certificate/online courses",
+      "Guidance on studying abroad",
+      "CV reviews for job application"
     ],
-    category: "corporates",
+    category: "college-graduates",
     isActive: true
   },
   {
-    name: "School/College Career Seminar",
-    description: "Comprehensive career awareness seminar for educational institutions",
-    price: 1500000, // ₹15000 in paise
-    duration: "Half day (3 hours)",
+    name: "Ascend Plus+",
+    description: "PREMIUM",
+    price: 1059900, // ₹10,599 in paise
+    duration: "",
     features: [
-      "Career awareness sessions",
-      "Stream selection guidance",
-      "Industry trends overview",
-      "Q&A with students and parents",
-      "Interactive activities",
-      "Resource materials for participants"
+      "Psychometric assessment to measure your interests",
+      "personality and abilities",
+      "3 career counselling sessions",
+      "Lifetime access to Knowledge Gateway",
+      "Attend live webinars by industry experts",
+      "Customised reports after each session with information on certificate/online courses",
+      "Guidance on studying abroad",
+      "CV reviews for job application"
     ],
-    category: "schools-colleges",
-    isActive: true
-  },
-  {
-    name: "Parent Counseling Session",
-    description: "Guidance for parents on supporting their children's educational and career decisions",
-    price: 300000, // ₹3000 in paise
-    duration: "60 minutes",
-    features: [
-      "Understanding child's strengths and interests",
-      "Parental role in career planning",
-      "Communication strategies",
-      "Supporting academic decisions",
-      "Managing expectations",
-      "Follow-up email support"
-    ],
-    category: "parents",
+    category: "working-professionals",
     isActive: true
   }
 ];
