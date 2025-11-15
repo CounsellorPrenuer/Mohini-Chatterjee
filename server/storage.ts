@@ -66,6 +66,7 @@ export interface IStorage {
   updateServicePackage(id: string, servicePackage: Partial<InsertServicePackage>): Promise<ServicePackage | undefined>;
   deleteServicePackage(id: string): Promise<boolean>;
   seedServicePackages(): Promise<{ created: number; skipped: number }>;
+  reseedServicePackages(): Promise<{ deleted: number; created: number }>;
   
   // Payments
   getAllPayments(): Promise<Payment[]>;
@@ -290,6 +291,18 @@ export class DatabaseStorage implements IStorage {
     }
 
     return { created, skipped };
+  }
+
+  async reseedServicePackages(): Promise<{ deleted: number; created: number }> {
+    // Delete all existing packages (hard delete)
+    const deleted = await db.delete(servicePackages);
+    const deletedCount = deleted.rowCount ?? 0;
+
+    // Import and insert default packages
+    const { defaultServicePackages } = await import("./seed");
+    await db.insert(servicePackages).values(defaultServicePackages);
+    
+    return { deleted: deletedCount, created: defaultServicePackages.length };
   }
 
   // Payments

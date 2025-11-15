@@ -421,6 +421,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/admin/service-packages/reseed", requireAuth, async (req, res) => {
+    try {
+      const result = await storage.reseedServicePackages();
+      res.json({ 
+        message: `Reseed completed: ${result.deleted} packages deleted, ${result.created} packages created`,
+        ...result
+      });
+    } catch (error) {
+      console.error("Error reseeding service packages:", error);
+      res.status(500).json({ error: "Failed to reseed service packages" });
+    }
+  });
+
   // Admin Payments
   app.get("/api/admin/payments", requireAuth, async (req, res) => {
     try {

@@ -140,6 +140,27 @@ export default function ServicePackageManager() {
     },
   });
 
+  const reseedPackages = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("POST", "/api/admin/service-packages/reseed");
+    },
+    onSuccess: (data: any) => {
+      toast({
+        title: "Reseed Completed",
+        description: data.message || "Service packages reseeded successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/service-packages"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/service-packages"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to reseed service packages",
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: ServicePackageFormData) => {
     // Parse features from comma-separated string
     const features = featuresInput.split(',').map(f => f.trim()).filter(f => f.length > 0);
@@ -428,6 +449,19 @@ export default function ServicePackageManager() {
         >
           <Package className="h-4 w-4 mr-2" />
           {seedPackages.isPending ? "Seeding..." : "Seed Default Packages"}
+        </Button>
+        <Button 
+          variant="destructive" 
+          onClick={() => {
+            if (confirm("⚠️ WARNING: This will DELETE ALL existing packages and replace them with the default packages. This action cannot be undone. Continue?")) {
+              reseedPackages.mutate();
+            }
+          }}
+          disabled={reseedPackages.isPending}
+          data-testid="button-reseed-packages"
+        >
+          <Package className="h-4 w-4 mr-2" />
+          {reseedPackages.isPending ? "Reseeding..." : "Reseed Packages"}
         </Button>
       </div>
 
