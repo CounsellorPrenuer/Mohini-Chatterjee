@@ -1,38 +1,44 @@
+import { useLocation } from "wouter";
 import aakarLogo from "@assets/Aakaar-logo - Mohini Chatterjee_1758871615977.png";
 
 export default function Footer() {
+  const [, setLocation] = useLocation();
+
   const footerSections = [
     {
       title: "Services",
       links: [
-        { name: "Career Guidance", href: "#services" },
-        { name: "Admission Counselling", href: "#services" },
-        { name: "Workshops", href: "#services" },
-        { name: "Corporate Solutions", href: "#services" }
+        { name: "Career Guidance", href: "#services", isRoute: false },
+        { name: "Admission Counselling", href: "#services", isRoute: false },
+        { name: "Workshops", href: "#services", isRoute: false },
+        { name: "Corporate Solutions", href: "#services", isRoute: false }
       ]
     },
     {
       title: "Company",
       links: [
-        { name: "About Us", href: "#about" },
-        { name: "Our Approach", href: "#about" },
-        { name: "Testimonials", href: "#testimonials" },
-        { name: "Blog", href: "#blog" }
+        { name: "About Us", href: "#about", isRoute: false },
+        { name: "Our Approach", href: "#about", isRoute: false },
+        { name: "Testimonials", href: "#testimonials", isRoute: false },
+        { name: "Blog", href: "#blog", isRoute: false }
       ]
     },
     {
       title: "Legal",
       links: [
-        { name: "Privacy Policy", href: "#" },
-        { name: "Terms of Service", href: "#" },
-        { name: "Refund Policy", href: "#" }
+        { name: "Privacy Policy", href: "/privacy-policy", isRoute: true },
+        { name: "Terms of Service", href: "/terms-of-service", isRoute: true },
+        { name: "Refund Policy", href: "/refund-policy", isRoute: true }
       ]
     }
   ];
 
-  const scrollToSection = (sectionId: string) => {
-    if (sectionId.startsWith("#")) {
-      const element = document.getElementById(sectionId.substring(1));
+  const handleLinkClick = (href: string, isRoute: boolean) => {
+    if (isRoute) {
+      setLocation(href);
+      window.scrollTo(0, 0);
+    } else if (href.startsWith("#")) {
+      const element = document.getElementById(href.substring(1));
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
@@ -72,8 +78,8 @@ export default function Footer() {
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <button
-                      onClick={() => scrollToSection(link.href)}
-                      className="transition-colors text-left"
+                      onClick={() => handleLinkClick(link.href, link.isRoute)}
+                      className="transition-colors text-left hover:text-white"
                       data-testid={`footer-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       {link.name}

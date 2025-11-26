@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import PageViewTracker from "@/components/PageViewTracker";
 import Home from "@/pages/Home";
 import Admin from "@/pages/Admin";
+import Legal from "@/pages/Legal";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -13,6 +14,9 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/admin" component={Admin} />
+      <Route path="/privacy-policy">{() => <Legal type="privacy" />}</Route>
+      <Route path="/terms-of-service">{() => <Legal type="terms" />}</Route>
+      <Route path="/refund-policy">{() => <Legal type="refund" />}</Route>
       <Route component={NotFound} />
     </Switch>
   );
