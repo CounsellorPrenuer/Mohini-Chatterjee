@@ -79,7 +79,7 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Email",
-      value: "mhn.chatterjee@gmail.com",
+      value: "mohini.aakarshapinglives@gmail.com",
       color: "bg-secondary"
     },
     {
