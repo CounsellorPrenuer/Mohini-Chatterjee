@@ -185,14 +185,6 @@ export default function PaymentDialog({ isOpen, onClose, selectedPackage }: Paym
           <div className="bg-gradient-to-br from-primary/10 to-secondary/10 p-4 rounded-lg mb-4">
             <h3 className="font-semibold text-lg">{selectedPackage.name}</h3>
             <p className="text-sm text-muted-foreground">{selectedPackage.description}</p>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-primary">
-                ₹{(selectedPackage.price / 100).toLocaleString()}
-              </span>
-              {selectedPackage.duration && (
-                <span className="text-muted-foreground">/ {selectedPackage.duration}</span>
-              )}
-            </div>
           </div>
         )}
 
@@ -265,7 +257,7 @@ export default function PaymentDialog({ isOpen, onClose, selectedPackage }: Paym
                 ) : (
                   <>
                     <CreditCard className="mr-2 h-4 w-4" />
-                    Pay ₹{selectedPackage ? (selectedPackage.price / 100).toLocaleString() : '0'}
+                    Proceed to Pay
                   </>
                 )}
               </Button>
