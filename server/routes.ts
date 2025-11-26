@@ -524,8 +524,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
-      // Validate phone number
-      if (!/^[6-9]\d{9}$/.test(customerPhone)) {
+      // Validate phone number (strip spaces, dashes, and +91 prefix)
+      const cleanPhone = customerPhone.replace(/[\s\-\(\)]/g, '').replace(/^\+91/, '');
+      if (!/^\d{10}$/.test(cleanPhone)) {
         return res.status(400).json({ error: "Invalid phone number" });
       }
 
