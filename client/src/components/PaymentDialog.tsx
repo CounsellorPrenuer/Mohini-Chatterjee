@@ -103,6 +103,9 @@ export default function PaymentDialog({ isOpen, onClose, selectedPackage }: Paym
         customerPhone: data.phone,
       }) as any;
 
+      console.log("Order Response from server:", orderResponse);
+      console.log("Amount to be charged:", orderResponse.amount, "paise =", orderResponse.amount / 100, "rupees");
+
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: orderResponse.amount,

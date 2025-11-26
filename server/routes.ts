@@ -543,6 +543,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Use server-side amount (cannot be tampered by client)
       const amount = servicePackage.price;
+      
+      console.log(`Creating Razorpay order for package: ${servicePackage.name}, price: ${amount} paise (₹${amount/100})`);
 
       const options = {
         amount: amount,
@@ -552,6 +554,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       const order = await razorpay.orders.create(options);
+      
+      console.log(`Razorpay order created: ${order.id}, amount: ${order.amount} paise (₹${order.amount/100})`);
 
       const payment = await storage.createPayment({
         transactionId: order.id,
