@@ -14,7 +14,9 @@ import { Loader2, CreditCard } from "lucide-react";
 const paymentFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
-  phone: z.string().regex(/^[6-9]\d{9}$/, "Please enter a valid 10-digit phone number"),
+  phone: z.string()
+    .transform(val => val.replace(/[\s\-\(\)]/g, '').replace(/^\+91/, ''))
+    .pipe(z.string().regex(/^\d{10}$/, "Please enter a valid 10-digit phone number")),
 });
 
 type PaymentFormData = z.infer<typeof paymentFormSchema>;
