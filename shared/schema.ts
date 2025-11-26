@@ -48,7 +48,8 @@ export const servicePackages = pgTable("service_packages", {
   description: text("description").notNull(),
   price: integer("price").notNull(), // Price in cents
   duration: text("duration"), // e.g., "1 hour", "3 sessions", "monthly"
-  features: text("features").array().notNull().default([]), // Array of features
+  features: text("features").array().notNull().default([]), // Array of included features
+  excludedFeatures: text("excluded_features").array().notNull().default([]), // Array of features NOT included
   category: text("category").notNull(), // career-counseling, workshops, assessments, etc.
   isActive: boolean("is_active").notNull().default(true),
   deletedAt: timestamp("deleted_at"), // Soft delete timestamp

@@ -29,6 +29,7 @@ export default function ServicePackageManager() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingPackage, setEditingPackage] = useState<ServicePackage | null>(null);
   const [featuresInput, setFeaturesInput] = useState("");
+  const [excludedFeaturesInput, setExcludedFeaturesInput] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -63,6 +64,7 @@ export default function ServicePackageManager() {
       setIsDialogOpen(false);
       form.reset();
       setFeaturesInput("");
+      setExcludedFeaturesInput("");
     },
     onError: () => {
       toast({
@@ -88,6 +90,7 @@ export default function ServicePackageManager() {
       setEditingPackage(null);
       form.reset();
       setFeaturesInput("");
+      setExcludedFeaturesInput("");
     },
     onError: () => {
       toast({
@@ -164,9 +167,10 @@ export default function ServicePackageManager() {
   const onSubmit = (data: ServicePackageFormData) => {
     // Parse features from comma-separated string
     const features = featuresInput.split(',').map(f => f.trim()).filter(f => f.length > 0);
+    const excludedFeatures = excludedFeaturesInput.split(',').map(f => f.trim()).filter(f => f.length > 0);
     // Convert rupees to paise for storage (₹50 becomes 5000 paise)
     const priceInPaise = Math.round(data.price * 100);
-    const packageData = { ...data, price: priceInPaise, features };
+    const packageData = { ...data, price: priceInPaise, features, excludedFeatures };
 
     if (editingPackage) {
       updatePackage.mutate({ id: editingPackage.id, data: packageData });
@@ -189,6 +193,7 @@ export default function ServicePackageManager() {
       isActive: pkg.isActive,
     });
     setFeaturesInput(pkg.features.join(", "));
+    setExcludedFeaturesInput(pkg.excludedFeatures?.join(", ") || "");
     setIsDialogOpen(true);
   };
 
@@ -263,6 +268,7 @@ export default function ServicePackageManager() {
               setEditingPackage(null);
               form.reset();
               setFeaturesInput("");
+              setExcludedFeaturesInput("");
             }} data-testid="button-add-package">
               <Plus className="h-4 w-4 mr-2" />
               Add Service Package
@@ -374,7 +380,7 @@ export default function ServicePackageManager() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium">Features (comma-separated)</label>
+                  <label className="text-sm font-medium">Included Features (comma-separated)</label>
                   <Textarea
                     value={featuresInput}
                     onChange={(e) => {
@@ -382,7 +388,7 @@ export default function ServicePackageManager() {
                       const features = e.target.value.split(',').map(f => f.trim()).filter(f => f.length > 0);
                       form.setValue('features', features);
                     }}
-                    placeholder="Personality assessment, Skills evaluation, Career recommendations, Follow-up session"
+                    placeholder="Psychometric assessment, 1 career counselling session, Lifetime access to Knowledge Gateway"
                     rows={3}
                     className="mt-2"
                     data-testid="textarea-features"
@@ -392,6 +398,21 @@ export default function ServicePackageManager() {
                       {form.formState.errors.features.message}
                     </p>
                   )}
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">Excluded Features (comma-separated) - Shows what's NOT included</label>
+                  <Textarea
+                    value={excludedFeaturesInput}
+                    onChange={(e) => setExcludedFeaturesInput(e.target.value)}
+                    placeholder="Customised reports, Guidance on studying abroad, CV building"
+                    rows={3}
+                    className="mt-2"
+                    data-testid="textarea-excluded-features"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Features listed here will appear with a strikethrough to show users what they're missing
+                  </p>
                 </div>
 
                 <FormField

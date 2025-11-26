@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Package as PackageIcon } from "lucide-react";
+import { Check, X, Package as PackageIcon } from "lucide-react";
 import type { ServicePackage } from "@shared/schema";
 import PaymentDialog from "@/components/PaymentDialog";
 
@@ -127,19 +127,25 @@ export default function ServicePackages() {
                     {pkg.description}
                   </p>
                   
-                  {pkg.features && pkg.features.length > 0 && (
+                  {(pkg.features && pkg.features.length > 0) || (pkg.excludedFeatures && pkg.excludedFeatures.length > 0) ? (
                     <div className="space-y-1.5">
-                      <h4 className="font-semibold text-xs break-words">What's Included:</h4>
+                      <h4 className="font-semibold text-xs break-words">Features:</h4>
                       <ul className="space-y-1.5">
-                        {pkg.features.map((feature, fIndex) => (
-                          <li key={fIndex} className="flex items-start gap-1.5 text-xs">
-                            <Check className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
+                        {pkg.features?.map((feature, fIndex) => (
+                          <li key={`included-${fIndex}`} className="flex items-start gap-1.5 text-xs">
+                            <Check className="h-3.5 w-3.5 text-green-500 mt-0.5 flex-shrink-0" />
                             <span className="break-words flex-1">{feature}</span>
+                          </li>
+                        ))}
+                        {pkg.excludedFeatures?.map((feature, fIndex) => (
+                          <li key={`excluded-${fIndex}`} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                            <X className="h-3.5 w-3.5 text-red-400 mt-0.5 flex-shrink-0" />
+                            <span className="break-words flex-1 line-through">{feature}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  )}
+                  ) : null}
                   
                   <Button 
                     className="w-full gradient-bg"
