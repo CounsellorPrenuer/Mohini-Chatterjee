@@ -121,6 +121,14 @@ export default function ServicePackages() {
                       {getCategoryLabel(pkg.category)}
                     </Badge>
                   </div>
+                  <div className="flex items-baseline gap-2 flex-wrap">
+                    <span className="text-2xl font-bold text-primary" data-testid={`package-price-${index}`}>
+                      ₹{(pkg.price / 100).toLocaleString()}
+                    </span>
+                    {pkg.duration && (
+                      <span className="text-sm text-muted-foreground break-words">/ {pkg.duration}</span>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-3 pt-0">
                   <p className="text-sm text-muted-foreground break-words" data-testid={`package-description-${index}`}>
