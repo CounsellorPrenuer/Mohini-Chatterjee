@@ -95,13 +95,15 @@ export default function PaymentDialog({ isOpen, onClose, selectedPackage }: Paym
     setIsProcessing(true);
 
     try {
-      const orderResponse = await apiRequest("POST", "/api/payments/create-order", {
+      const response = await apiRequest("POST", "/api/payments/create-order", {
         amount: selectedPackage.price,
         packageId: selectedPackage.id,
         customerName: data.name,
         customerEmail: data.email,
         customerPhone: data.phone,
-      }) as any;
+      });
+      
+      const orderResponse = await response.json();
 
       console.log("Order Response from server:", orderResponse);
       console.log("Amount to be charged:", orderResponse.amount, "paise =", orderResponse.amount / 100, "rupees");
