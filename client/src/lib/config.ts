@@ -1,0 +1,9 @@
+export const PROJECT_ID = "mohinichatterjee";
+export const SANITY_PROJECT_ID = "xybzczck";
+export const SANITY_DATASET = "production";
+export const SANITY_STUDIO_HOST = "mohinichatterjee";
+export const GITHUB_PAGES_REPO_NAME = "Mohini-Chatterjee";
+export const SITE_BASE = "/Mohini-Chatterjee";
+export const WORKER_URL = "https://multi-tenant-platform.gauravgoodreads.workers.dev";
+export const CONTACT_EMAIL = "mohini.aakarshapinglives@gmail.com";
+export const CONTACT_PHONE = "+91 9826912569";

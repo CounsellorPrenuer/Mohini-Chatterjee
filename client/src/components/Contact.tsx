@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { workerPost } from "@/lib/workerApi";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { Phone, Mail, MapPin, Linkedin, Facebook, Instagram } from "lucide-react";
 import { insertContactSchema } from "@shared/schema";
@@ -23,7 +23,6 @@ type ContactFormData = z.infer<typeof contactFormSchema>;
 
 export default function Contact() {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const { trackFormSubmit, trackButtonClick } = useAnalytics();
 
   const form = useForm<ContactFormData>({
@@ -39,7 +38,14 @@ export default function Contact() {
 
   const submitContact = useMutation({
     mutationFn: async (data: ContactFormData) => {
-      return await apiRequest("POST", "/api/contacts", data);
+      return await workerPost<{ ok: boolean; lead_id: string }>("/api/forms/submit", {
+        name: data.name,
+        email: data.email,
+        phone: data.phone || "",
+        message: data.message,
+        service: data.service,
+        serviceType: data.service,
+      });
     },
     onSuccess: (data, variables) => {
       // Track successful form submission for conversion analytics
@@ -54,7 +60,6 @@ export default function Contact() {
         description: "We will get back to you within 24 hours.",
       });
       form.reset();
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/contacts"] });
     },
     onError: () => {
       toast({
