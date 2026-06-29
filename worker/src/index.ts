@@ -32,6 +32,12 @@ const PLAN_PRICES: Record<string, number> = {
 const CMS_PROJECTS: Record<string, string> = {
   mariapawar: "zd6zrruu",
   rajivbanerjee: "8j37l731",
+  thinknextcareers: "dxeej4rn",
+  careercounselor: "qc7z49n6",
+  iqeducenter: "unau8qvi",
+  "pichika-mallikarjuna-rao": "9sag37n0",
+  eagleeyefocus: "dizffr9l",
+  growthplatteracademy: "d6qzpqiq",
   mohinichatterjee: "xybzczck",
 };
 
